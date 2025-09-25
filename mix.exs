@@ -7,6 +7,14 @@ defmodule CanvasCraft.MixProject do
       version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
+      dialyzer: [
+        plt_add_apps: [:mix],
+        ignore_warnings: "dialyzer.ignore"
+      ],
+      preferred_cli_env: [
+        credo: :test,
+        dialyzer: :dev
+      ],
       deps: deps()
     ]
   end
