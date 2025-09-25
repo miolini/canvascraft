@@ -55,7 +55,7 @@
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 - [x] T008 Define renderer conformance spec (failing first)
       - test/contract/renderer_conformance_test.exs: shared tests for callbacks and invariants
-- [ ] T009 [P] Golden image harness with tolerance
+- [x] T009 [P] Golden image harness with tolerance
       - test/integration/golden_test.exs + test/support/golden_helper.ex
       - Implement per-channel Δ≤2 OR PSNR≥40 dB comparator (configurable)
 - [ ] T010 [P] Integration test: rectangle fill + save WEBP
