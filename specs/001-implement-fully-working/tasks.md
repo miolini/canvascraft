@@ -72,7 +72,7 @@
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 - [x] T015 Implement behaviour `CanvasCraft.Renderer`
       - lib/canvas_craft/renderer.ex (typespecs, docs for all callbacks)
-- [ ] T016 Implement public API façade `CanvasCraft`
+- [x] T016 Implement public API façade `CanvasCraft`
       - lib/canvas_craft.ex (create_canvas/2, clear/2, fill_rect/…, path ops, text, export_webp)
 - [ ] T017 Skia NIF: surface creation and RGBA buffer
       - native/canvas_craft_skia/src/lib.rs (init, canvas creation)

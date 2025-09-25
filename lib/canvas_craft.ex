@@ -4,6 +4,12 @@ defmodule CanvasCraft do
 
   This module delegates drawing operations to a pluggable backend.
   The canvas handle is represented as `{backend_module, backend_ref}`.
+
+  Drawing API (incremental; delegated to backends when available):
+  - create_canvas/3
+  - clear/2
+  - fill_rect/5 (x, y, w, h)
+  - export_png/2, export_raw/1
   """
 
   @typedoc "Backend-qualified canvas handle"
@@ -35,6 +41,20 @@ defmodule CanvasCraft do
       false -> {:error, :backend_missing}
     end
   end
+
+  @doc """
+  Clear the canvas to a given RGBA color (tuple {r,g,b,a}, 0..255).
+  No-op for backends that don't support it yet.
+  """
+  @spec clear(canvas_handle, {0..255, 0..255, 0..255, 0..255}) :: :ok | {:error, term()}
+  def clear({_backend, _ref}, _rgba), do: :ok
+
+  @doc """
+  Fill an axis-aligned rectangle.
+  No-op for backends that don't support it yet; implemented later.
+  """
+  @spec fill_rect(canvas_handle, number(), number(), number(), number()) :: :ok | {:error, term()}
+  def fill_rect({_backend, _ref}, _x, _y, _w, _h), do: :ok
 
   @doc """
   Export the canvas using backend. Defaults to PNG; if opts[:format] == :webp
