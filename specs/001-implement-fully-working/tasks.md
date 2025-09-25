@@ -100,12 +100,12 @@
       - Files: lib/canvas_craft/capabilities.ex
 - [x] T026 Add conformance tests per primitive group (failing first)
       - Files: test/contract/primitives/*.exs (images_test.exs, gradients_test.exs, filters_test.exs, blending_test.exs, clipping_test.exs, effects_test.exs)
-- [ ] T027 Skia NIF: gradients & shaders bindings
+- [x] T027 Skia NIF: gradients & shaders bindings
       - Files: native/canvas_craft_skia/src/lib.rs (modules), lib/canvas_craft/backends/skia.ex
-- [ ] T028 Skia NIF: color filters & image filters bindings
-- [ ] T029 Skia NIF: image decoding/encoding and draw_image with sampling
-- [ ] T030 Skia NIF: blenders/compose + save_layer with paint
-- [ ] T031 Skia NIF: clipping, mask filters, path effects
+- [x] T028 Skia NIF: color filters & image filters bindings
+- [x] T029 Skia NIF: image decoding/encoding and draw_image with sampling
+- [x] T030 Skia NIF: blenders/compose + save_layer with paint
+- [x] T031 Skia NIF: clipping, mask filters, path effects
 - [ ] T032 Backend delegation & capability negotiation
       - Implement capability reporting; gracefully error {:error, :unsupported} for missing features in other backends
 - [ ] T033 Integration tests (golden): images, gradients, filters, blend modes, clipping
