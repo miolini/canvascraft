@@ -62,7 +62,7 @@
       - test/integration/rect_fill_webp_test.exs (writes tmp file, compares golden)
 - [x] T011 [P] Integration test: stroke joins/caps and fill rules
       - test/integration/stroke_fill_rules_test.exs
-- [ ] T012 [P] Integration test: text draw with font/size
+- [x] T012 [P] Integration test: text draw with font/size
       - test/integration/text_render_test.exs
 - [ ] T013 [P] Integration test: transform stack (translate/scale/rotate)
       - test/integration/transform_stack_test.exs
