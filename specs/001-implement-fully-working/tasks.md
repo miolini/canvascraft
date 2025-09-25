@@ -110,9 +110,9 @@
       - Implement capability reporting; gracefully error {:error, :unsupported} for missing features in other backends
 - [x] T033 Integration tests (golden): images, gradients, filters, blend modes, clipping
       - Files: test/integration/images_test.exs, gradients_test.exs, filters_test.exs, blending_test.exs, clipping_test.exs
-- [ ] T034 Docs & examples covering all primitive groups
+- [x] T034 Docs & examples covering all primitive groups
       - @moduledoc with examples; guides/examples/*.exs; README sections
-- [ ] T035 Benchmarks for images and filters
+- [x] T035 Benchmarks for images and filters
       - bench/images_filters_bench.exs
 
 ## Phase 3.3c: In-Memory Rendering (Zero-FS Path)

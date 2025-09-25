@@ -5,11 +5,8 @@ defmodule CanvasCraft do
   This module delegates drawing operations to a pluggable backend.
   The canvas handle is represented as `{backend_module, backend_ref}`.
 
-  Drawing API (incremental; delegated to backends when available):
-  - create_canvas/3
-  - clear/2
-  - fill_rect/5 (x, y, w, h)
-  - export_png/2, export_raw/1
+  Examples:
+  See `guides/examples/` for runnable scripts demonstrating gradients, filters, and images.
   """
 
   @typedoc "Backend-qualified canvas handle"
