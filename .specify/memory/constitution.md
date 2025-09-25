@@ -1,50 +1,101 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: N/A → 1.0.0
+- Modified principles: N/A (initial adoption)
+- Added sections:
+  • Core Principles (5)
+  • Architectural Constraints & Technology Standards
+  • Development Workflow & Quality Gates
+  • Governance
+- Removed sections: None
+- Templates requiring updates:
+  ✅ .specify/templates/plan-template.md (path/version reference)
+  ✅ .specify/templates/spec-template.md (aligned; no changes needed)
+  ✅ .specify/templates/tasks-template.md (aligned; no changes needed)
+  ⚠ README.md (absent) → add project overview referencing constitution principles
+  ⚠ docs/quickstart.md (absent) → add backend setup with Skia
+- Follow-up TODOs:
+  • Define concrete performance targets after initial profiling (bench suite to set p95 frame/render times)
+-->
+
+# CanvasCraft Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Idiomatic Elixir, Pure API Surfaces
+All public APIs MUST be idiomatic Elixir: pure functions when feasible, immutable data,
+no hidden global state. Functions MUST use typespecs and return {:ok, value} | {:error, reason}
+for recoverable errors; crashes are reserved for programmer errors. Long-running or blocking
+work MUST avoid scheduler starvation; NIFs, if used, MUST be dirty and respect BEAM safety.
+Rationale: Ensures reliability on the BEAM, composability, and predictable failure semantics.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Backend-Agnostic Rendering via Behaviours
+Rendering is abstracted behind a `CanvasCraft.Renderer` behaviour with a stable contract
+(surface creation, path ops, paint/text, transforms, rasterize/export). Backends MUST
+implement and pass the shared conformance test suite. The MVP MUST provide a Skia backend;
+additional backends MAY be added without changing the public API. Rationale: Multiple
+backends with one API, enabling portability and future engines.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test-First with Conformance and Property Testing
+TDD is mandatory. Contract tests define renderer behaviour; each backend MUST pass them.
+Geometry and color operations SHOULD use property-based tests (e.g., stream_data) to ensure
+algebraic laws (associativity, bounds, invariants). Golden-image tests MUST use tolerances
+(delta/PSNR) to account for backend-level numeric differences. Rationale: Prevents regressions
+and guarantees cross-backend consistency.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Performance, Determinism, and Safety
+Core operations MUST be benchmarked; performance changes MUST be measured in CI. Rendering
+results for the same inputs MUST be deterministic per backend. Memory ownership across NIFs
+MUST be explicit; no unbounded allocations or leaks. Any unsafe operations MUST be isolated
+behind well-documented modules with tests. Rationale: Graphics workloads are performance-
+sensitive; determinism simplifies testing and debugging.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Documentation, SemVer, and Compatibility Discipline
+Public API stability follows SemVer. Breaking changes require a MAJOR bump with migration
+notes. New capabilities are MINOR; fixes/clarifications are PATCH. Every release MUST update
+CHANGELOG and docs with runnable examples. Deprecations MUST include warnings and a supported
+replacement for at least one MINOR release. Rationale: Predictable evolution for library users.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Architectural Constraints & Technology Standards
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Language/Runtime: Elixir (BEAM). Native code MAY be used for backends via Rust NIFs or Ports;
+  NIFs MUST be dirty and carefully bounded; Ports MAY be used for isolation.
+- Backends: The project MUST support multiple renderer backends. The MVP MUST include a fully
+  working Skia backend capable of rasterizing to image buffers/files.
+- API Surface: Primary API is a functional drawing context module; no UI frameworks included.
+- Platforms: macOS and Linux targets initially; Windows support MAY follow.
+- Build/Tooling: Mix project; dialyzer and formatter enabled; CI runs tests, dialyzer, formatter,
+  and benchmarks (non-blocking threshold checks initially).
+- Logging: Minimal and structured. Debug visuals provided via explicit API, not implicit logs.
+- Security/Sandboxing: No network or filesystem writes unless explicitly requested by API.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow & Quality Gates
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Code Review: Two approvals required for core modules and any backend implementation.
+- Static Analysis: dialyzer MUST pass; no ignored warnings without a documented waiver.
+- Tests: Unit + property tests + cross-backend conformance tests MUST pass before merge.
+- Benchmarks: Core benchmark suite MUST run in CI; performance deltas over thresholds REQUIRE
+  investigation notes before merge.
+- Docs: Public modules MUST have moduledoc and doctests with copy-pastable examples.
+- Release: SemVer tagging; CHANGELOG and upgrade notes required for MINOR/MAJOR.
+- Waivers: Temporary waivers MUST include owner and expiry (< 60 days) and appear in CI output.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This Constitution supersedes other practices where conflict arises. Amendments require a PR
+that updates this document, includes a migration/impact note, and increments the version per
+SemVer policy below. Compliance is verified during PR review and in CI via checks that read
+this document where automated enforcement exists.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendment & Versioning Policy:
+- MAJOR: Backward-incompatible API or governance changes, or removal/redefinition of principles.
+- MINOR: New principle/section added, or materially expanded guidance.
+- PATCH: Clarifications, wording, or non-semantic refinements.
+
+Compliance Review Expectations:
+- Every PR description MUST include a “Constitution Check” confirming adherence or listing
+  approved waivers.
+- CI MUST run tests, analysis, and benchmark gates defined above.
+- Non-compliant changes MUST NOT be merged without an approved, time-bound waiver.
+
+**Version**: 1.0.0 | **Ratified**: 2025-09-25 | **Last Amended**: 2025-09-25
