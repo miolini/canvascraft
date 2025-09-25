@@ -73,4 +73,8 @@ defmodule CanvasCraft.Native.Skia do
   def font_set_size(_surface, _pt), do: :erlang.nif_error(:nif_not_loaded)
   @doc false
   def draw_text(_surface, _x, _y, _utf8_binary), do: :erlang.nif_error(:nif_not_loaded)
+
+  # Encoding (T022)
+  @doc false
+  def encode_webp(_surface, _opts \\ []), do: :erlang.nif_error(:nif_not_loaded)
 end

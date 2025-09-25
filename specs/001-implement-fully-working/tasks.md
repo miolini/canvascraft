@@ -80,7 +80,7 @@
 - [x] T019 Skia NIF: paint state (fill, stroke, width, cap, join, miter, aa)
 - [x] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
 - [x] T021 Skia NIF: text drawing (font load, layout, draw)
-- [ ] T022 Skia NIF: WEBP encode and file write (return {:ok, binary})
+- [x] T022 Skia NIF: WEBP encode and file write (return {:ok, binary})
 - [ ] T023 Backend module `CanvasCraft.Backends.Skia`
       - lib/canvas_craft/backends/skia.ex (delegates public API to NIF; select via opts)
 
