@@ -98,7 +98,7 @@
       - Files: lib/canvas_craft/renderer.ex, lib/canvas_craft/types.ex
 - [x] T025 Define `CanvasCraft.Capabilities` and enums/typespecs for features above
       - Files: lib/canvas_craft/capabilities.ex
-- [ ] T026 Add conformance tests per primitive group (failing first)
+- [x] T026 Add conformance tests per primitive group (failing first)
       - Files: test/contract/primitives/*.exs (images_test.exs, gradients_test.exs, filters_test.exs, blending_test.exs, clipping_test.exs, effects_test.exs)
 - [ ] T027 Skia NIF: gradients & shaders bindings
       - Files: native/canvas_craft_skia/src/lib.rs (modules), lib/canvas_craft/backends/skia.ex

@@ -31,7 +31,6 @@ defmodule CanvasCraft.Capabilities do
   @type gradient_stop :: {number(), {0..255, 0..255, 0..255, 0..255}}
 
   @doc "All known features"
-  @spec features() :: MapSet.t(feature())
   def features, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
 
   @doc "Return true if backend supports feature (based on capabilities/0)"
