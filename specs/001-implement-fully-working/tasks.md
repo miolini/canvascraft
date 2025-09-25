@@ -58,11 +58,9 @@
 - [x] T009 [P] Golden image harness with tolerance
       - test/integration/golden_test.exs + test/support/golden_helper.ex
       - Implement per-channel Δ≤2 OR PSNR≥40 dB comparator (configurable)
-- [ ] T010 [P] Integration test: rectangle fill + save WEBP
+- [x] T010 [P] Integration test: rectangle fill + save WEBP
       - test/integration/rect_fill_webp_test.exs (writes tmp file, compares golden)
- - [x] T010 [P] Integration test: rectangle fill + save WEBP
-      - test/integration/rect_fill_webp_test.exs (writes tmp file, compares golden)
-- [ ] T011 [P] Integration test: stroke joins/caps and fill rules
+- [x] T011 [P] Integration test: stroke joins/caps and fill rules
       - test/integration/stroke_fill_rules_test.exs
 - [ ] T012 [P] Integration test: text draw with font/size
       - test/integration/text_render_test.exs
