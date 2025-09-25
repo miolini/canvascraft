@@ -18,6 +18,14 @@ defmodule CanvasCraft.MixProject do
   end
 
   defp deps do
-    []
+    [
+      {:rustler, "~> 0.34"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:stream_data, "~> 1.1", only: :test},
+      {:benchee, "~> 1.3", only: [:dev, :test]},
+      {:mox, "~> 1.1", only: :test},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+    ]
   end
 end

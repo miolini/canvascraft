@@ -31,7 +31,7 @@
 ## Phase 3.1: Setup
 - [x] T001 Initialize Mix project at repo root as library `canvas_craft`
       - Files: mix.exs, lib/canvas_craft.ex, test/test_helper.exs
-- [ ] T002 Add dependencies in mix.exs
+- [x] T002 Add dependencies in mix.exs
       - :rustler (~> 0.34), :ex_doc, :dialyxir, :stream_data, :benchee, :mox, :credo
 - [ ] T003 Configure tooling
       - .formatter.exs, .credo.exs, dialyzer PLT in dialyzer.ignore, ci settings
