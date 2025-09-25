@@ -81,7 +81,7 @@
 - [x] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
 - [x] T021 Skia NIF: text drawing (font load, layout, draw)
 - [x] T022 Skia NIF: WEBP encode and file write (return {:ok, binary})
-- [ ] T023 Backend module `CanvasCraft.Backends.Skia`
+- [x] T023 Backend module `CanvasCraft.Backends.Skia`
       - lib/canvas_craft/backends/skia.ex (delegates public API to NIF; select via opts)
 
 ## Phase 3.3b: Skia Primitive Coverage & Behaviour Expansion

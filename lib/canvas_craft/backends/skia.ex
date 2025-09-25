@@ -2,8 +2,10 @@ defmodule CanvasCraft.Backends.Skia do
   @moduledoc """
   Skia backend module.
 
-  Skia NIF integration is introduced in later tasks; until then this module
-  reports the backend as unavailable when NIF isn't loaded.
+  Select by passing `backend: #{__MODULE__}` to `CanvasCraft.create_canvas/3`.
+  Delegates to NIFs declared in `CanvasCraft.Native.Skia` when available.
+  In dev/test (no NIF), functions will return {:error, :backend_unavailable} and
+  the facade maps to {:error, :backend_missing} to keep tests deterministic.
   """
 
   @behaviour CanvasCraft.Renderer
