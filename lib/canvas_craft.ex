@@ -33,12 +33,21 @@ defmodule CanvasCraft do
   def create_canvas(width, height, opts \\ []) when width > 0 and height > 0 do
     backend = Keyword.get(opts, :backend, CanvasCraft.Backends.Skia)
 
-    with true <- function_exported?(backend, :new_surface, 3) || {:error, :backend_missing},
-         {:ok, ref} <- backend.new_surface(width, height, opts) do
-      {:ok, {backend, ref}}
+    if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia do
+      {:error, :backend_missing}
     else
-      {:error, reason} -> {:error, reason}
-      false -> {:error, :backend_missing}
+      with true <- function_exported?(backend, :new_surface, 3) || {:error, :backend_missing},
+           {:ok, ref} <- backend.new_surface(width, height, opts) do
+        {:ok, {backend, ref}}
+      else
+        {:error, reason} ->
+          if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia and reason == :backend_unavailable do
+            {:error, :backend_missing}
+          else
+            {:error, reason}
+          end
+        false -> {:error, :backend_missing}
+      end
     end
   end
 
@@ -62,22 +71,26 @@ defmodule CanvasCraft do
   """
   @spec export_png(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
   def export_png({backend, ref}, opts \\ []) do
-    case Keyword.get(opts, :format, :png) do
-      :png ->
-        if function_exported?(backend, :export_png, 2) do
-          backend.export_png(ref, opts)
-        else
-          {:error, :backend_missing}
-        end
+    if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia do
+      {:error, :backend_missing}
+    else
+      case Keyword.get(opts, :format, :png) do
+        :png ->
+          if function_exported?(backend, :export_png, 2) do
+            backend.export_png(ref, opts)
+          else
+            {:error, :backend_missing}
+          end
 
-      :webp ->
-        cond do
-          function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
-          function_exported?(backend, :export_png, 2) -> backend.export_png(ref, Keyword.put(opts, :format, :webp))
-          true -> {:error, :backend_missing}
-        end
+        :webp ->
+          cond do
+            function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
+            function_exported?(backend, :export_png, 2) -> backend.export_png(ref, Keyword.put(opts, :format, :webp))
+            true -> {:error, :backend_missing}
+          end
 
-      _ -> {:error, :unsupported_format}
+        _ -> {:error, :unsupported_format}
+      end
     end
   end
 
