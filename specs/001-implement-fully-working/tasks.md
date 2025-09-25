@@ -66,7 +66,7 @@
       - test/integration/text_render_test.exs
 - [x] T013 [P] Integration test: transform stack (translate/scale/rotate)
       - test/integration/transform_stack_test.exs
-- [ ] T014 Property tests for geometry invariants
+- [x] T014 Property tests for geometry invariants
       - test/unit/geometry_prop_test.exs (StreamData generators)
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
