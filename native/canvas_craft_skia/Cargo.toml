@@ -1,0 +1,11 @@
+[package]
+name = "canvas_craft_skia"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "canvas_craft_skia"
+crate-type = ["cdylib"]
+
+[dependencies]
+rustler = "0.34"

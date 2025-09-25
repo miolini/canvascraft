@@ -39,11 +39,11 @@
       - lib/canvas_craft.ex (public API façade)
       - lib/canvas_craft/renderer.ex (behaviour: callbacks for surface, path ops, paint, text, transform, export)
       - lib/canvas_craft/backends/skia.ex (backend module stub)
-- [ ] T005 [P] Create project skeleton for native Skia backend via Rustler and safe-skia
-      - native/canvas_craft_skia/: Cargo.toml, src/lib.rs (Rust
+- [x] T005 [P] Create project skeleton for native Skia backend via Rustler
       - native/canvas_craft_skia/Cargo.toml
       - native/canvas_craft_skia/src/lib.rs
       - configure Rustler NIF in mix.exs and application
+      - Add Skia as a git submodule under `third_party/skia` for compilation purposes
       - Wire native build scripts to use local `third_party/skia` sources (document platform toolchains)
       - Document submodule init/update in README and developer setup
 - [ ] T006 Add deterministic test font

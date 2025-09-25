@@ -15,6 +15,7 @@ defmodule CanvasCraft.MixProject do
         credo: :test,
         dialyzer: :dev
       ],
+      rustler_crates: rustler_crates(),
       deps: deps()
     ]
   end
@@ -35,5 +36,18 @@ defmodule CanvasCraft.MixProject do
       {:mox, "~> 1.1", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
+  end
+
+  defp rustler_crates do
+    if Mix.env() == :prod do
+      [
+        canvas_craft_skia: [
+          path: "native/canvas_craft_skia",
+          mode: :release
+        ]
+      ]
+    else
+      []
+    end
   end
 end
