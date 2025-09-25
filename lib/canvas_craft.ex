@@ -105,4 +105,16 @@ defmodule CanvasCraft do
       {:error, :unsupported}
     end
   end
+
+  @doc "Return capabilities supported by the selected backend"
+  @spec capabilities(module()) :: MapSet.t()
+  def capabilities(backend) when is_atom(backend) do
+    if function_exported?(backend, :capabilities, 0), do: backend.capabilities(), else: MapSet.new()
+  end
+
+  @doc "Return true if backend supports the given feature"
+  @spec supports?(module(), atom()) :: boolean()
+  def supports?(backend, feature) when is_atom(backend) do
+    MapSet.member?(capabilities(backend), feature)
+  end
 end

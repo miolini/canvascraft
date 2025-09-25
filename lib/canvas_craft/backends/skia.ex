@@ -204,4 +204,9 @@ defmodule CanvasCraft.Backends.Skia do
 
   @impl true
   def capabilities, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
+
+  # Capability helper (not in behaviour)
+  def supports?(feature) do
+    MapSet.member?(capabilities(), feature)
+  end
 end
