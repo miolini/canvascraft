@@ -108,7 +108,7 @@
 - [x] T031 Skia NIF: clipping, mask filters, path effects
 - [x] T032 Backend delegation & capability negotiation
       - Implement capability reporting; gracefully error {:error, :unsupported} for missing features in other backends
-- [ ] T033 Integration tests (golden): images, gradients, filters, blend modes, clipping
+- [x] T033 Integration tests (golden): images, gradients, filters, blend modes, clipping
       - Files: test/integration/images_test.exs, gradients_test.exs, filters_test.exs, blending_test.exs, clipping_test.exs
 - [ ] T034 Docs & examples covering all primitive groups
       - @moduledoc with examples; guides/examples/*.exs; README sections
