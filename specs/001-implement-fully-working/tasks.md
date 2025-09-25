@@ -76,7 +76,7 @@
       - lib/canvas_craft.ex (create_canvas/2, clear/2, fill_rect/…, path ops, text, export_webp)
 - [x] T017 Skia NIF: surface creation and RGBA buffer
       - native/canvas_craft_skia/src/lib.rs (init, canvas creation)
-- [ ] T018 Skia NIF: path building (move_to, line_to, bezier_to, close_path)
+- [x] T018 Skia NIF: path building (move_to, line_to, bezier_to, close_path)
 - [ ] T019 Skia NIF: paint state (fill, stroke, width, cap, join, miter, aa)
 - [ ] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
 - [ ] T021 Skia NIF: text drawing (font load, layout, draw)

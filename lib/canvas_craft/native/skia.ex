@@ -15,4 +15,20 @@ defmodule CanvasCraft.Native.Skia do
 
   @doc false
   def get_raw(_surface), do: :erlang.nif_error(:nif_not_loaded)
+
+  # Path building (T018)
+  @doc false
+  def path_begin(_surface), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def path_move_to(_surface, _x, _y), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def path_line_to(_surface, _x, _y), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def path_bezier_to(_surface, _cx1, _cy1, _cx2, _cy2, _x, _y), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def path_close(_surface), do: :erlang.nif_error(:nif_not_loaded)
 end
