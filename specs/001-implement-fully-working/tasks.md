@@ -35,7 +35,7 @@
       - :rustler (~> 0.34), :ex_doc, :dialyxir, :stream_data, :benchee, :mox, :credo
 - [x] T003 Configure tooling
       - .formatter.exs, .credo.exs, dialyzer PLT in dialyzer.ignore, ci settings
-- [ ] T004 [P] Create base module layout
+- [x] T004 [P] Create base module layout
       - lib/canvas_craft.ex (public API façade)
       - lib/canvas_craft/renderer.ex (behaviour: callbacks for surface, path ops, paint, text, transform, export)
       - lib/canvas_craft/backends/skia.ex (backend module stub)
