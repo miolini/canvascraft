@@ -78,7 +78,7 @@
       - native/canvas_craft_skia/src/lib.rs (init, canvas creation)
 - [x] T018 Skia NIF: path building (move_to, line_to, bezier_to, close_path)
 - [x] T019 Skia NIF: paint state (fill, stroke, width, cap, join, miter, aa)
-- [ ] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
+- [x] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
 - [ ] T021 Skia NIF: text drawing (font load, layout, draw)
 - [ ] T022 Skia NIF: WEBP encode and file write (return {:ok, binary})
 - [ ] T023 Backend module `CanvasCraft.Backends.Skia`

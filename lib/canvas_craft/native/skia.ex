@@ -53,4 +53,16 @@ defmodule CanvasCraft.Native.Skia do
 
   @doc false
   def set_antialias(_surface, _bool), do: :erlang.nif_error(:nif_not_loaded)
+
+  # Transforms (T020)
+  @doc false
+  def save(_surface), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def restore(_surface), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def translate(_surface, _tx, _ty), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def scale(_surface, _sx, _sy), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def rotate(_surface, _deg), do: :erlang.nif_error(:nif_not_loaded)
 end
