@@ -15,6 +15,7 @@ defmodule CanvasCraft.Renderer do
   - Blending (blend modes) and save layers
   - Clipping (rect/path)
   - Shapes (round rect, oval/circle, arc)
+  - Path effects (e.g., dash)
   """
 
   @typedoc "Opaque backend surface handle"
@@ -100,4 +101,7 @@ defmodule CanvasCraft.Renderer do
   @callback draw_round_rect(surface, x :: number(), y :: number(), w :: number(), h :: number(), rx :: number(), ry :: number()) :: :ok | {:error, term()}
   @callback draw_oval(surface, cx :: number(), cy :: number(), rx :: number(), ry :: number()) :: :ok | {:error, term()}
   @callback draw_arc(surface, cx :: number(), cy :: number(), r :: number(), start_deg :: number(), sweep_deg :: number()) :: :ok | {:error, term()}
+
+  # Path effects
+  @callback set_path_effect(surface, effect :: term()) :: :ok | {:error, term()}
 end

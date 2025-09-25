@@ -106,4 +106,8 @@ defmodule CanvasCraft.Native.Skia do
   def draw_oval(_surface, _cx, _cy, _rx, _ry), do: :erlang.nif_error(:nif_not_loaded)
   @doc false
   def draw_arc(_surface, _cx, _cy, _r, _start_deg, _sweep_deg), do: :erlang.nif_error(:nif_not_loaded)
+
+  # Path effects
+  @doc false
+  def set_path_effect(_surface, _effect), do: :erlang.nif_error(:nif_not_loaded)
 end

@@ -202,11 +202,22 @@ defmodule CanvasCraft.Backends.Skia do
     end
   end
 
+  # Path effects
+  @impl true
+  def set_path_effect(surface, effect) do
+    try do
+      Native.set_path_effect(surface, effect)
+    rescue
+      _ -> {:error, :backend_unavailable}
+    end
+  end
+
   @impl true
   def capabilities, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
 
   # Capability helper (not in behaviour)
   def supports?(feature) do
-    MapSet.member?(capabilities(), feature)
+    caps = capabilities() |> MapSet.to_list()
+    feature in caps
   end
 end

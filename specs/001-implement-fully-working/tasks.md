@@ -84,7 +84,7 @@
 - [x] T023 Backend module `CanvasCraft.Backends.Skia`
       - lib/canvas_craft/backends/skia.ex (delegates public API to NIF; select via opts)
 
-## Phase 3.3b: Skia Primitive Coverage & Behaviour Expansion
+## Phase 3.3b: Skia Primitive Coverage & Behaviour Expansion (Completed)
 - [x] T024 Expand `CanvasCraft.Renderer` behaviour to cover Skia primitive families
       - Add callbacks and types for:
         • Images (load from binary/path, draw_image, sampling options)

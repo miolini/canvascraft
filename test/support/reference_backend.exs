@@ -83,4 +83,7 @@ defmodule CanvasCraft.Backends.Reference do
 
   @impl true
   def draw_arc(%Surf{} = _s, _cx, _cy, _r, _start_deg, _sweep_deg), do: :ok
+
+  @impl true
+  def set_path_effect(%Surf{} = _s, _effect), do: :ok
 end
