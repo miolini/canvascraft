@@ -64,7 +64,7 @@
       - test/integration/stroke_fill_rules_test.exs
 - [x] T012 [P] Integration test: text draw with font/size
       - test/integration/text_render_test.exs
-- [ ] T013 [P] Integration test: transform stack (translate/scale/rotate)
+- [x] T013 [P] Integration test: transform stack (translate/scale/rotate)
       - test/integration/transform_stack_test.exs
 - [ ] T014 Property tests for geometry invariants
       - test/unit/geometry_prop_test.exs (StreamData generators)
