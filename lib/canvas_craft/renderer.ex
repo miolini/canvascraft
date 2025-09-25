@@ -12,6 +12,8 @@ defmodule CanvasCraft.Renderer do
 
   @callback export_png(surface, opts :: keyword()) :: {:ok, binary()} | {:error, term()}
 
+  @callback export_webp(surface, opts :: keyword()) :: {:ok, binary()} | {:error, term()}
+
   @callback export_raw(surface) ::
               {:ok, {width :: non_neg_integer(), height :: non_neg_integer(), stride :: non_neg_integer(), rgba :: binary()}}
               | {:error, term()}
