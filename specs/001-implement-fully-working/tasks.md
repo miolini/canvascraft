@@ -29,7 +29,7 @@
 - Assets: `priv/` (e.g., fonts)
 
 ## Phase 3.1: Setup
-- [ ] T001 Initialize Mix project at repo root as library `canvas_craft`
+- [x] T001 Initialize Mix project at repo root as library `canvas_craft`
       - Files: mix.exs, lib/canvas_craft.ex, test/test_helper.exs
 - [ ] T002 Add dependencies in mix.exs
       - :rustler (~> 0.34), :ex_doc, :dialyxir, :stream_data, :benchee, :mox, :credo
