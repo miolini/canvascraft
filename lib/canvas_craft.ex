@@ -37,26 +37,27 @@ defmodule CanvasCraft do
   end
 
   @doc """
-  Export the canvas to a PNG binary via its backend.
+  Export the canvas using backend. Defaults to PNG; if opts[:format] == :webp
+  and the backend implements export_webp/2, that path is used.
   """
   @spec export_png(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
   def export_png({backend, ref}, opts \\ []) do
-    if function_exported?(backend, :export_png, 2) do
-      backend.export_png(ref, opts)
-    else
-      {:error, :backend_missing}
-    end
-  end
+    case Keyword.get(opts, :format, :png) do
+      :png ->
+        if function_exported?(backend, :export_png, 2) do
+          backend.export_png(ref, opts)
+        else
+          {:error, :backend_missing}
+        end
 
-  @doc """
-  Export the canvas to a WEBP binary via its backend.
-  """
-  @spec export_webp(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
-  def export_webp({backend, ref}, opts \\ []) do
-    if function_exported?(backend, :export_webp, 2) do
-      backend.export_webp(ref, opts)
-    else
-      {:error, :backend_missing}
+      :webp ->
+        cond do
+          function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
+          function_exported?(backend, :export_png, 2) -> backend.export_png(ref, Keyword.put(opts, :format, :webp))
+          true -> {:error, :backend_missing}
+        end
+
+      _ -> {:error, :unsupported_format}
     end
   end
 

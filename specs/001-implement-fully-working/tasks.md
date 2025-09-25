@@ -53,7 +53,7 @@
       - Ensure checkout includes submodules (recursive) so Skia sources are available during native builds
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
-- [ ] T008 Define renderer conformance spec (failing first)
+- [x] T008 Define renderer conformance spec (failing first)
       - test/contract/renderer_conformance_test.exs: shared tests for callbacks and invariants
 - [ ] T009 [P] Golden image harness with tolerance
       - test/integration/golden_test.exs + test/support/golden_helper.ex
