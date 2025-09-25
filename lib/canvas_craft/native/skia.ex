@@ -31,4 +31,26 @@ defmodule CanvasCraft.Native.Skia do
 
   @doc false
   def path_close(_surface), do: :erlang.nif_error(:nif_not_loaded)
+
+  # Paint state (T019)
+  @doc false
+  def set_fill_color(_surface, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_stroke_color(_surface, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_stroke_width(_surface, _w), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_line_cap(_surface, _cap), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_line_join(_surface, _join), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_miter_limit(_surface, _limit), do: :erlang.nif_error(:nif_not_loaded)
+
+  @doc false
+  def set_antialias(_surface, _bool), do: :erlang.nif_error(:nif_not_loaded)
 end
