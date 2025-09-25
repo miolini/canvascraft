@@ -19,6 +19,11 @@ defmodule CanvasCraft.Backends.Skia do
   end
 
   @impl true
+  def export_webp(_surface, _opts) do
+    {:error, :backend_unavailable}
+  end
+
+  @impl true
   def export_raw(_surface) do
     {:error, :backend_unavailable}
   end
