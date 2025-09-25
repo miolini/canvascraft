@@ -46,7 +46,7 @@
       - Add Skia as a git submodule under `third_party/skia` for compilation purposes
       - Wire native build scripts to use local `third_party/skia` sources (document platform toolchains)
       - Document submodule init/update in README and developer setup
-- [ ] T006 Add deterministic test font
+- [x] T006 Add deterministic test font
       - priv/fonts/DejaVuSans.ttf (open license) and loader utility
 - [ ] T007 Setup CI
       - .github/workflows/ci.yml (macOS + Ubuntu) → run format, credo, dialyzer, tests, benchmarks (non-blocking)
