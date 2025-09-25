@@ -58,8 +58,8 @@
 - [ ] T009 [P] Golden image harness with tolerance
       - test/integration/golden_test.exs + test/support/golden_helper.ex
       - Implement per-channel Δ≤2 OR PSNR≥40 dB comparator (configurable)
-- [ ] T010 [P] Integration test: rectangle fill + save PNG
-      - test/integration/rect_fill_png_test.exs (writes tmp file, compares golden)
+- [ ] T010 [P] Integration test: rectangle fill + save WEBP
+      - test/integration/rect_fill_webp_test.exs (writes tmp file, compares golden)
 - [ ] T011 [P] Integration test: stroke joins/caps and fill rules
       - test/integration/stroke_fill_rules_test.exs
 - [ ] T012 [P] Integration test: text draw with font/size
@@ -73,14 +73,14 @@
 - [ ] T015 Implement behaviour `CanvasCraft.Renderer`
       - lib/canvas_craft/renderer.ex (typespecs, docs for all callbacks)
 - [ ] T016 Implement public API façade `CanvasCraft`
-      - lib/canvas_craft.ex (create_canvas/2, clear/2, fill_rect/…, path ops, text, export_png)
+      - lib/canvas_craft.ex (create_canvas/2, clear/2, fill_rect/…, path ops, text, export_webp)
 - [ ] T017 Skia NIF: surface creation and RGBA buffer
       - native/canvas_craft_skia/src/lib.rs (init, canvas creation)
 - [ ] T018 Skia NIF: path building (move_to, line_to, bezier_to, close_path)
 - [ ] T019 Skia NIF: paint state (fill, stroke, width, cap, join, miter, aa)
 - [ ] T020 Skia NIF: transforms (save/restore, translate/scale/rotate)
 - [ ] T021 Skia NIF: text drawing (font load, layout, draw)
-- [ ] T022 Skia NIF: PNG encode and file write (return {:ok, binary})
+- [ ] T022 Skia NIF: WEBP encode and file write (return {:ok, binary})
 - [ ] T023 Backend module `CanvasCraft.Backends.Skia`
       - lib/canvas_craft/backends/skia.ex (delegates public API to NIF; select via opts)
 
@@ -117,14 +117,14 @@
 
 ## Phase 3.3c: In-Memory Rendering (Zero-FS Path)
 - [ ] T036 [P] Golden harness: support comparing from in-memory binaries
-      - Update test/support/golden_helper.ex to accept PNG binary as input (no temp files)
-- [ ] T037 [P] Integration test: in-memory PNG generation returns binary only
-      - test/integration/rect_fill_png_in_memory_test.exs (assert is_binary, compare via helper)
+      - Update test/support/golden_helper.ex to accept WEBP binary or build-in Skia support as input (no temp files)
+- [ ] T037 [P] Integration test: in-memory WEBP generation returns binary only
+      - test/integration/rect_fill_webp_in_memory_test.exs (assert is_binary, compare via helper)
 - [ ] T038 Public API: expose in-memory export and raw buffer
-      - lib/canvas_craft.ex: export_png/2 returns {:ok, binary}; export_raw/1 returns {:ok, {w,h,stride,binary}}
+      - lib/canvas_craft.ex: export_webp/2 returns {:ok, binary}; export_raw/1 returns {:ok, {w,h,stride,binary}}
       - typespecs and docs; file-writing helpers become thin wrappers around binary path
 - [ ] T039 Skia NIF: zero-FS encode and raw buffer access
-      - native/canvas_craft_skia/src/lib.rs: PNG encode to memory; get_rgba_buffer/1 without touching FS
+      - native/canvas_craft_skia/src/lib.rs: WEBP encode to memory; get_rgba_buffer/1 without touching FS
 - [ ] T040 Docs: quickstart and examples using in-memory API
       - README sections + doctests show binary workflow and optional file save wrapper
 - [ ] T041 Benchmarks: in-memory encode and buffer copy costs
@@ -163,7 +163,7 @@
 ```
 # Launch test creation in parallel:
 Task: "Golden image harness" (T009)
-Task: "Rect fill PNG test" (T010)
+Task: "Rect fill WEBP test" (T010)
 Task: "Stroke/fill rules test" (T011)
 Task: "Text render test" (T012)
 Task: "Transform stack test" (T013)
