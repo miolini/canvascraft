@@ -96,7 +96,7 @@
         • SaveLayer with paint; draw_round_rect, draw_oval/circle, draw_arc
         • Capability discovery (e.g., capabilities/0 or supports?(:feature))
       - Files: lib/canvas_craft/renderer.ex, lib/canvas_craft/types.ex
-- [ ] T025 Define `CanvasCraft.Capabilities` and enums/typespecs for features above
+- [x] T025 Define `CanvasCraft.Capabilities` and enums/typespecs for features above
       - Files: lib/canvas_craft/capabilities.ex
 - [ ] T026 Add conformance tests per primitive group (failing first)
       - Files: test/contract/primitives/*.exs (images_test.exs, gradients_test.exs, filters_test.exs, blending_test.exs, clipping_test.exs, effects_test.exs)
