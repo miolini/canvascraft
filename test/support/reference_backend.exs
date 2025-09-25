@@ -5,6 +5,9 @@ defmodule CanvasCraft.Backends.Reference do
   """
   @behaviour CanvasCraft.Renderer
 
+  @impl true
+  def capabilities, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
+
   defmodule Surf do
     @moduledoc false
     defstruct [:w, :h]

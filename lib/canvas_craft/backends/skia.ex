@@ -78,4 +78,7 @@ defmodule CanvasCraft.Backends.Skia do
       _ -> {:error, :backend_unavailable}
     end
   end
+
+  @impl true
+  def capabilities, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
 end
