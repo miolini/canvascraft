@@ -1,6 +1,20 @@
 defmodule CanvasCraft.Renderer do
   @moduledoc """
   Behaviour defining the backend-agnostic rendering contract for CanvasCraft.
+
+  ## Example
+
+      iex> defmodule MyBackend do
+      ...>   @behaviour CanvasCraft.Renderer
+      ...>   def new_surface(w, h, _opts), do: {:ok, {w, h}}
+      ...>   def export_webp({_w, _h}, _opts), do: {:ok, <<1,2,3>>}
+      ...>   def capabilities, do: MapSet.new([:images])
+      ...> end
+      iex> {:ok, surf} = MyBackend.new_surface(10, 10, [])
+      iex> {:ok, bin} = MyBackend.export_webp(surf, [])
+      iex> is_binary(bin)
+      true
+
   Backends implement these callbacks; the facade delegates to them.
 
   This minimal contract supports:

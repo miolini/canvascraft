@@ -130,7 +130,7 @@
 - [x] T041 Benchmarks: in-memory encode and buffer copy costs
       - bench/in_memory_encode_bench.exs
 
-## Phase 3.4: Integration
+## Phase 3.4: Integration (Completed)
 - [x] T042 Plug tolerance config into test env
       - config/test.exs (golden comparator thresholds)
 - [x] T043 Font resource management
@@ -138,7 +138,7 @@
 - [x] T044 Benchmarks for core ops
       - bench/bench_helper.exs, bench/draw_ops_bench.exs (Benchee)
 - [x] T045 Dialyzer success (no ignored warnings without waiver)
-- [ ] T046 Structured docs and doctests
+- [x] T046 Structured docs and doctests
       - @moduledoc and examples; mix docs builds with examples
 
 ## Phase 3.5: Polish
