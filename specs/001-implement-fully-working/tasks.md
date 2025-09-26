@@ -123,7 +123,7 @@
 - [x] T038 Public API: expose in-memory export and raw buffer
       - lib/canvas_craft.ex: export_webp/2 returns {:ok, binary}; export_raw/1 returns {:ok, {w,h,stride,binary}}
       - typespecs and docs; file-writing helpers become thin wrappers around binary path
-- [ ] T039 Skia NIF: zero-FS encode and raw buffer access
+- [x] T039 Skia NIF: zero-FS encode and raw buffer access
       - native/canvas_craft_skia/src/lib.rs: WEBP encode to memory; get_rgba_buffer/1 without touching FS
 - [ ] T040 Docs: quickstart and examples using in-memory API
       - README sections + doctests show binary workflow and optional file save wrapper

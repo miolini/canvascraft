@@ -55,11 +55,16 @@ defmodule CanvasCraft.Backends.Skia do
   end
 
   @impl true
-  def export_webp(surface, _opts) do
+  def export_webp(surface, opts) do
     try do
-      case Native.get_raw(surface) do
-        {w, h, _stride, _bin} -> {:ok, ":webp:#{w}x#{h}"}
-        _ -> {:error, :export_failed}
+      # Prefer native in-memory WEBP encoder when available
+      cond do
+        function_exported?(Native, :encode_webp, 2) -> Native.encode_webp(surface, opts)
+        true ->
+          case Native.get_raw(surface) do
+            {w, h, _stride, _bin} -> {:ok, ":webp:#{w}x#{h}"}
+            _ -> {:error, :export_failed}
+          end
       end
     rescue
       _ -> {:error, :backend_unavailable}
@@ -69,10 +74,19 @@ defmodule CanvasCraft.Backends.Skia do
   @impl true
   def export_raw(surface) do
     try do
-      case Native.get_raw(surface) do
-        {w, h, stride, bin} -> {:ok, {w, h, stride, bin}}
-        other when is_tuple(other) -> {:ok, other}
-        _ -> {:error, :no_raw}
+      cond do
+        function_exported?(Native, :get_rgba_buffer, 1) ->
+          case Native.get_rgba_buffer(surface) do
+            {w, h, stride, bin} -> {:ok, {w, h, stride, bin}}
+            other when is_tuple(other) -> {:ok, other}
+            _ -> {:error, :no_raw}
+          end
+        true ->
+          case Native.get_raw(surface) do
+            {w, h, stride, bin} -> {:ok, {w, h, stride, bin}}
+            other when is_tuple(other) -> {:ok, other}
+            _ -> {:error, :no_raw}
+          end
       end
     rescue
       _ -> {:error, :backend_unavailable}

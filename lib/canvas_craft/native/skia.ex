@@ -16,6 +16,9 @@ defmodule CanvasCraft.Native.Skia do
   @doc false
   def get_raw(_surface), do: :erlang.nif_error(:nif_not_loaded)
 
+  @doc false
+  def get_rgba_buffer(_surface), do: :erlang.nif_error(:nif_not_loaded)
+
   # Path building (T018)
   @doc false
   def path_begin(_surface), do: :erlang.nif_error(:nif_not_loaded)
