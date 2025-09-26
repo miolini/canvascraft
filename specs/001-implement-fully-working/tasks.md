@@ -131,7 +131,7 @@
       - bench/in_memory_encode_bench.exs
 
 ## Phase 3.4: Integration
-- [ ] T042 Plug tolerance config into test env
+- [x] T042 Plug tolerance config into test env
       - config/test.exs (golden comparator thresholds)
 - [ ] T043 Font resource management
       - priv/fonts loader, fallback strategy, docs
