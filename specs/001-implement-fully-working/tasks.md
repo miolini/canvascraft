@@ -135,7 +135,7 @@
       - config/test.exs (golden comparator thresholds)
 - [x] T043 Font resource management
       - priv/fonts loader, fallback strategy, docs
-- [ ] T044 Benchmarks for core ops
+- [x] T044 Benchmarks for core ops
       - bench/bench_helper.exs, bench/draw_ops_bench.exs (Benchee)
 - [ ] T045 Dialyzer success (no ignored warnings without waiver)
 - [ ] T046 Structured docs and doctests
