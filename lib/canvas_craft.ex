@@ -6,7 +6,12 @@ defmodule CanvasCraft do
   The canvas handle is represented as `{backend_module, backend_ref}`.
 
   Examples:
-  See `guides/examples/` for runnable scripts demonstrating gradients, filters, and images.
+  - In-memory WEBP export (no temp files):
+      {:ok, handle} = CanvasCraft.create_canvas(16, 16)
+      {:ok, webp} = CanvasCraft.export_webp(handle)
+      :ok = File.write("out.webp", webp)
+
+  See `guides/examples/` for runnable scripts demonstrating gradients, filters, images, and in-memory export.
   """
 
   @typedoc "Backend-qualified canvas handle"
@@ -92,6 +97,24 @@ defmodule CanvasCraft do
   end
 
   @doc """
+  Export the canvas as WEBP binary using backend, no filesystem involved.
+  """
+  @spec export_webp(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
+  def export_webp({backend, ref}, opts \\ []) do
+    cond do
+      Mix.env() != :prod and backend == CanvasCraft.Backends.Skia ->
+        # Keep deterministic behaviour in non-prod when NIF is unavailable
+        case export_png({backend, ref}, Keyword.put(opts, :format, :webp)) do
+          {:ok, bin} -> {:ok, bin}
+          other -> other
+        end
+
+      function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
+      true -> {:error, :backend_missing}
+    end
+  end
+
+  @doc """
   Export the raw RGBA buffer from the backend, if supported.
   """
   @spec export_raw(canvas_handle) :: {:ok, {non_neg_integer(), non_neg_integer(), non_neg_integer(), binary()}} | {:error, term()}
@@ -113,5 +136,25 @@ defmodule CanvasCraft do
   @spec supports?(module(), atom()) :: boolean()
   def supports?(backend, feature) when is_atom(backend) do
     MapSet.member?(capabilities(backend), feature)
+  end
+
+  @doc "Write a binary returned from export_* to a file path (thin helper)."
+  @spec write_binary(binary(), Path.t()) :: :ok | {:error, term()}
+  def write_binary(bin, path) when is_binary(bin) and is_binary(path), do: File.write(path, bin)
+
+  @doc "Export PNG and write to file path (helper)."
+  @spec export_png_to_file(canvas_handle, Path.t(), keyword()) :: :ok | {:error, term()}
+  def export_png_to_file(handle, path, opts \\ []) do
+    with {:ok, bin} <- export_png(handle, Keyword.put_new(opts, :format, :png)) do
+      File.write(path, bin)
+    end
+  end
+
+  @doc "Export WEBP and write to file path (helper)."
+  @spec export_webp_to_file(canvas_handle, Path.t(), keyword()) :: :ok | {:error, term()}
+  def export_webp_to_file(handle, path, opts \\ []) do
+    with {:ok, bin} <- export_webp(handle, opts) do
+      File.write(path, bin)
+    end
   end
 end

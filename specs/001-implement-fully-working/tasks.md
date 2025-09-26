@@ -120,7 +120,7 @@
       - Update test/support/golden_helper.ex to accept WEBP binary or build-in Skia support as input (no temp files)
 - [x] T037 [P] Integration test: in-memory WEBP generation returns binary only
       - test/integration/rect_fill_webp_in_memory_test.exs (assert is_binary, compare via helper)
-- [ ] T038 Public API: expose in-memory export and raw buffer
+- [x] T038 Public API: expose in-memory export and raw buffer
       - lib/canvas_craft.ex: export_webp/2 returns {:ok, binary}; export_raw/1 returns {:ok, {w,h,stride,binary}}
       - typespecs and docs; file-writing helpers become thin wrappers around binary path
 - [ ] T039 Skia NIF: zero-FS encode and raw buffer access
