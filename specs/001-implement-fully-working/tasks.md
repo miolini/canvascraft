@@ -133,7 +133,7 @@
 ## Phase 3.4: Integration
 - [x] T042 Plug tolerance config into test env
       - config/test.exs (golden comparator thresholds)
-- [ ] T043 Font resource management
+- [x] T043 Font resource management
       - priv/fonts loader, fallback strategy, docs
 - [ ] T044 Benchmarks for core ops
       - bench/bench_helper.exs, bench/draw_ops_bench.exs (Benchee)

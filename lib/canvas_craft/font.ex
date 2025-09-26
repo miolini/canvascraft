@@ -1,20 +1,22 @@
 defmodule CanvasCraft.Font do
   @moduledoc """
-  Utilities for deterministic font loading for tests and examples.
+  Font loader utility for CanvasCraft.
+  Loads fonts from priv/fonts, with fallback to DejaVuSans.ttf.
   """
 
-  @doc """
-  Return an absolute path to the bundled deterministic test font.
-  Raises if the font is not found.
-  """
-  @spec test_font!() :: String.t()
-  def test_font! do
-    base = :code.priv_dir(:canvas_craft) |> to_string()
-    path = Path.join([base, "fonts", "DejaVuSans.ttf"])
+  @default_font "priv/fonts/DejaVuSans.ttf"
 
-    case File.stat(path) do
-      {:ok, %File.Stat{type: :regular}} -> path
-      _ -> raise "Bundled test font missing at #{path}"
+  @doc "Load a font by name from priv/fonts, fallback to default if missing."
+  @spec load(String.t()) :: {:ok, binary()} | {:error, term()}
+  def load(name) when is_binary(name) do
+    path = Path.join([:code.priv_dir(:canvas_craft), "fonts", name])
+    case File.read(path) do
+      {:ok, bin} -> {:ok, bin}
+      _ -> File.read(@default_font)
     end
   end
+
+  @doc "Return default font binary."
+  @spec default() :: {:ok, binary()} | {:error, term()}
+  def default, do: File.read(@default_font)
 end
