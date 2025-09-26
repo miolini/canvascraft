@@ -115,7 +115,7 @@
 - [x] T035 Benchmarks for images and filters
       - bench/images_filters_bench.exs
 
-## Phase 3.3c: In-Memory Rendering (Zero-FS Path)
+## Phase 3.3c: In-Memory Rendering (Zero-FS Path) (Completed)
 - [x] T036 [P] Golden harness: support comparing from in-memory binaries
       - Update test/support/golden_helper.ex to accept WEBP binary or build-in Skia support as input (no temp files)
 - [x] T037 [P] Integration test: in-memory WEBP generation returns binary only
@@ -127,7 +127,7 @@
       - native/canvas_craft_skia/src/lib.rs: WEBP encode to memory; get_rgba_buffer/1 without touching FS
 - [x] T040 Docs: quickstart and examples using in-memory API
       - README sections + doctests show binary workflow and optional file save wrapper
-- [ ] T041 Benchmarks: in-memory encode and buffer copy costs
+- [x] T041 Benchmarks: in-memory encode and buffer copy costs
       - bench/in_memory_encode_bench.exs
 
 ## Phase 3.4: Integration
