@@ -118,7 +118,7 @@
 ## Phase 3.3c: In-Memory Rendering (Zero-FS Path)
 - [x] T036 [P] Golden harness: support comparing from in-memory binaries
       - Update test/support/golden_helper.ex to accept WEBP binary or build-in Skia support as input (no temp files)
-- [ ] T037 [P] Integration test: in-memory WEBP generation returns binary only
+- [x] T037 [P] Integration test: in-memory WEBP generation returns binary only
       - test/integration/rect_fill_webp_in_memory_test.exs (assert is_binary, compare via helper)
 - [ ] T038 Public API: expose in-memory export and raw buffer
       - lib/canvas_craft.ex: export_webp/2 returns {:ok, binary}; export_raw/1 returns {:ok, {w,h,stride,binary}}
