@@ -7,9 +7,10 @@ defmodule CanvasCraft do
 
   Examples:
   - In-memory WEBP export (no temp files):
-      {:ok, handle} = CanvasCraft.create_canvas(16, 16)
-      {:ok, webp} = CanvasCraft.export_webp(handle)
-      :ok = File.write("out.webp", webp)
+      iex> {:ok, handle} = CanvasCraft.create_canvas(16, 16, backend: CanvasCraft.Backends.Reference)
+      iex> {:ok, bin} = CanvasCraft.export_webp(handle)
+      iex> is_binary(bin)
+      true
 
   See `guides/examples/` for runnable scripts demonstrating gradients, filters, images, and in-memory export.
   """

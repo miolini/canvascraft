@@ -125,7 +125,7 @@
       - typespecs and docs; file-writing helpers become thin wrappers around binary path
 - [x] T039 Skia NIF: zero-FS encode and raw buffer access
       - native/canvas_craft_skia/src/lib.rs: WEBP encode to memory; get_rgba_buffer/1 without touching FS
-- [ ] T040 Docs: quickstart and examples using in-memory API
+- [x] T040 Docs: quickstart and examples using in-memory API
       - README sections + doctests show binary workflow and optional file save wrapper
 - [ ] T041 Benchmarks: in-memory encode and buffer copy costs
       - bench/in_memory_encode_bench.exs
