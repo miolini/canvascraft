@@ -116,7 +116,7 @@
       - bench/images_filters_bench.exs
 
 ## Phase 3.3c: In-Memory Rendering (Zero-FS Path)
-- [ ] T036 [P] Golden harness: support comparing from in-memory binaries
+- [x] T036 [P] Golden harness: support comparing from in-memory binaries
       - Update test/support/golden_helper.ex to accept WEBP binary or build-in Skia support as input (no temp files)
 - [ ] T037 [P] Integration test: in-memory WEBP generation returns binary only
       - test/integration/rect_fill_webp_in_memory_test.exs (assert is_binary, compare via helper)

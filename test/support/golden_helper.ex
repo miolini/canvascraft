@@ -10,6 +10,16 @@ defmodule CanvasCraft.GoldenHelper do
     compare_bytes(got, expected)
   end
 
+  # New: accept WEBP or any binary; path is to expected golden file
+  def compare_webp_binary(got_binary, expected_path) when is_binary(got_binary) do
+    compare_png_binary(got_binary, expected_path)
+  end
+
+  # Generic: compare a binary against an expected path
+  def compare_binary(got_binary, expected_path) when is_binary(got_binary) do
+    compare_png_binary(got_binary, expected_path)
+  end
+
   def compare_png_files(got_path, expected_path) do
     {:ok, got} = File.read(got_path)
     {:ok, expected} = File.read(expected_path)
