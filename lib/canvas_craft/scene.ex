@@ -473,15 +473,90 @@ defmodule CanvasCraft.Scene do
     :ok
   end
 
-  # Named-property macros
-  defmacro rect(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_rect(unquote(props))
-  defmacro circle(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_circle(unquote(props))
-  defmacro panel(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_panel(unquote(props))
-  defmacro donut_segment(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_donut(unquote(props))
-  defmacro grid(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_grid(unquote(props))
-  defmacro scatter(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_scatter(unquote(props))
-  defmacro text_bar(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_text_bar(unquote(props))
-  defmacro progress_bar(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_progress_bar(unquote(props))
-  defmacro line_chart(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_line_chart(unquote(props))
-  defmacro candle_chart(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_candle_chart(unquote(props))
+  # --- New gradient helpers ---
+  def __kw_linear_gradient_rect(props) when is_list(props) do
+    x = Keyword.fetch!(props, :x)
+    y = Keyword.fetch!(props, :y)
+    w = Keyword.fetch!(props, :w)
+    h = Keyword.fetch!(props, :h)
+    from = Keyword.fetch!(props, :from)
+    to = Keyword.fetch!(props, :to)
+    vertical = Keyword.get(props, :vertical, true)
+    steps = Keyword.get(props, :steps, 64)
+    for i <- 0..steps do
+      t = i / max(steps, 1)
+      {r1,g1,b1,a1} = from
+      {r2,g2,b2,a2} = to
+      c = {
+        trunc(r1 + (r2 - r1) * t),
+        trunc(g1 + (g2 - g1) * t),
+        trunc(b1 + (b2 - b1) * t),
+        trunc(a1 + (a2 - a1) * t)
+      }
+      if vertical do
+        _ = CanvasCraft.fill_rect(handle!(), x, y + round(h * t), w, max(div(h, steps+1), 1), c)
+      else
+        _ = CanvasCraft.fill_rect(handle!(), x + round(w * t), y, max(div(w, steps+1), 1), h, c)
+      end
+    end
+    :ok
+  end
+
+  def __kw_radial_gradient_circle(props) when is_list(props) do
+    cx = Keyword.fetch!(props, :cx)
+    cy = Keyword.fetch!(props, :cy)
+    r = Keyword.fetch!(props, :r)
+    inner = Keyword.fetch!(props, :inner)
+    outer = Keyword.fetch!(props, :outer)
+    steps = Keyword.get(props, :steps, 48)
+    for i <- 0..steps do
+      t = i / max(steps, 1)
+      {r1,g1,b1,a1} = inner
+      {r2,g2,b2,a2} = outer
+      c = {
+        trunc(r1 + (r2 - r1) * t),
+        trunc(g1 + (g2 - g1) * t),
+        trunc(b1 + (b2 - b1) * t),
+        trunc(a1 + (a2 - a1) * t)
+      }
+      rr = r * (1.0 - t)
+      _ = CanvasCraft.fill_circle(handle!(), cx, cy, rr, c)
+    end
+    :ok
+  end
+
+  # --- Simple text-like UI helpers (placeholders) ---
+  def __kw_label(props) when is_list(props) do
+    x = Keyword.fetch!(props, :x)
+    y = Keyword.fetch!(props, :y)
+    w = Keyword.get(props, :w, 160)
+    h = Keyword.get(props, :h, 20)
+    tone = Keyword.get(props, :tone, {220,226,236,255})
+    _ = CanvasCraft.fill_rect(handle!(), x, y, w, h, tone)
+    :ok
+  end
+
+  def __kw_chip(props) when is_list(props) do
+    x = Keyword.fetch!(props, :x)
+    y = Keyword.fetch!(props, :y)
+    label_w = Keyword.get(props, :w, 120)
+    h = Keyword.get(props, :h, 22)
+    dot = Keyword.get(props, :dot, {90,205,140,255})
+    bar = Keyword.get(props, :bar, {220,226,236,255})
+    # rounded rect via circles + rects
+    r = div(h, 2)
+    _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r, {48,52,62,255})
+    _ = CanvasCraft.fill_circle(handle!(), x + r + label_w, y + r, r, {48,52,62,255})
+    _ = CanvasCraft.fill_rect(handle!(), x + r, y, label_w, h, {48,52,62,255})
+    # dot and label bar
+    _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r - 6, dot)
+    _ = CanvasCraft.fill_rect(handle!(), x + r + 12, y + 6, label_w - 6, h - 12, bar)
+    :ok
+  end
+
+  # --- Macros for new helpers ---
+  defmacro linear_gradient_rect(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_linear_gradient_rect(unquote(props))
+  defmacro radial_gradient_circle(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_radial_gradient_circle(unquote(props))
+  defmacro label(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_label(unquote(props))
+  defmacro chip(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_chip(unquote(props))
 end
