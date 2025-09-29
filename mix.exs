@@ -56,7 +56,7 @@ defmodule CanvasCraft.MixProject do
       files: [
         "lib",
         "native/canvas_craft_skia/src",
-        "native/canvas_craft_skia/Cargo.toml",
+      "native/canvas_craft_skia/Cargo.toml",
         "priv/fonts",
         "mix.exs",
         "README.md",
