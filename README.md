@@ -36,8 +36,6 @@ Minimal scene:
 import CanvasCraft.Scene
 
 render width: 128, height: 128, path: "out.webp" do
-  aa 4
-  clear {255, 255, 255, 255}
   rect x: 16, y: 16, w: 96, h: 96, color: {0, 128, 255, 255}
 end
 ```
