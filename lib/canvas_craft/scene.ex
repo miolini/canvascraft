@@ -559,4 +559,16 @@ defmodule CanvasCraft.Scene do
   defmacro radial_gradient_circle(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_radial_gradient_circle(unquote(props))
   defmacro label(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_label(unquote(props))
   defmacro chip(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_chip(unquote(props))
+
+  # --- Macros mapping named properties to runtime helpers ---
+  defmacro rect(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_rect(unquote(props))
+  defmacro circle(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_circle(unquote(props))
+  defmacro panel(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_panel(unquote(props))
+  defmacro donut_segment(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_donut(unquote(props))
+  defmacro grid(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_grid(unquote(props))
+  defmacro scatter(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_scatter(unquote(props))
+  defmacro text_bar(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_text_bar(unquote(props))
+  defmacro progress_bar(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_progress_bar(unquote(props))
+  defmacro line_chart(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_line_chart(unquote(props))
+  defmacro candle_chart(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_candle_chart(unquote(props))
 end
