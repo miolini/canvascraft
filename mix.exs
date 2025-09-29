@@ -21,13 +21,26 @@ defmodule CanvasCraft.MixProject do
           mode: :release
         ]
       ],
-      deps: deps()
+      deps: deps(),
+      package: package(),
+      source_url: "https://github.com/miolini/canvascraft",
+      homepage_url: "https://github.com/miolini/canvascraft"
     ]
   end
 
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/miolini/canvascraft",
+        "Changelog" => "https://github.com/miolini/canvascraft/blob/main/CHANGELOG.md"
+      }
     ]
   end
 

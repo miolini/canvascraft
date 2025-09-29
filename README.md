@@ -69,4 +69,4 @@ All exports return binaries so you can decide how/where to persist:
 - Skia NIF is not required for CI and is disabled by default there.
 
 ## License
-Apache-2.0
+MIT
