@@ -10,7 +10,6 @@ defmodule KitchenSink do
   @spec render(Path.t()) :: :ok | {:error, term()}
   def render(path) do
     result = render width: @width, height: @height, path: path do
-      aa 8
       clear {30,34,40,255}
 
       panel x: 60, y: 60, w: @width-120, h: @height-120, color: {42,46,54,255}
