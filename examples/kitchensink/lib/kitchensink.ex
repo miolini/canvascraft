@@ -87,6 +87,17 @@ defmodule KitchenSink do
       progress_bar x: sys_x+90, y: sys_y+92, w: sys_w-150, h: 18, pct: mem, aa: aa
       text x: sys_x + sys_w - 54, y: sys_y+96, text: "#{round(mem*100)}%", size: 14, color: pal.faint
 
+      # Disk
+      text x: sys_x+20, y: sys_y+134, text: "STORAGE", size: 14, color: pal.muted
+      progress_bar x: sys_x+90, y: sys_y+130, w: sys_w-150, h: 18, pct: 0.75, aa: aa
+      text x: sys_x + sys_w - 54, y: sys_y+134, text: "75%", size: 14, color: pal.faint
+
+      # Network
+      net = 0.32
+      text x: sys_x+20, y: sys_y+172, text: "NETWORK", size: 14, color: pal.muted
+      progress_bar x: sys_x+90, y: sys_y+168, w: sys_w-150, h: 18, pct: net, aa: aa
+      text x: sys_x + sys_w - 54, y: sys_y+172, text: "#{round(net*100)}%", size: 14, color: pal.faint
+
       # Right column: Analytics card
       right_x = left_x + left_w + 40
       right_y = 140
@@ -101,14 +112,40 @@ defmodule KitchenSink do
       plot_w = right_w - 56
       plot_h = right_h - 108
 
-      # Grid behind content
-      grid x: plot_x, y: plot_y, w: plot_w, h: plot_h, rows: 8, cols: 10, color: pal.grid, aa: aa
+      # Sub-layout for Analytics (non-overlapping)
+      gap = 16
+      trend_h = 180
+      scatter_h = 360
+      ohlc_h = plot_h - trend_h - scatter_h - 2*gap
 
-      # Line and candles
-      line_chart x: plot_x+40, y: plot_y+24, w: plot_w-80, h: 160,
+      trend_y = plot_y
+      scatter_y = trend_y + trend_h + gap
+      ohlc_y = scatter_y + scatter_h + gap
+
+      # Trend (line)
+      grid x: plot_x, y: trend_y, w: plot_w, h: trend_h, rows: 4, cols: 10, color: pal.grid, aa: aa
+      line_chart x: plot_x+40, y: trend_y+16, w: plot_w-80, h: trend_h-32,
                  points: Enum.map(0..20, fn i -> {i/20, 0.5 + :math.sin(i/3)/3} end), color: pal.blue, aa: aa
+      chip x: plot_x+40, y: trend_y+trend_h-24, w: 120, h: 20, dot: pal.blue, aa: aa
 
-      candle_chart x: plot_x+60, y: plot_y+220, w: plot_w-120, h: 160,
+      # Scatter (center)
+      grid x: plot_x, y: scatter_y, w: plot_w, h: scatter_h, rows: 6, cols: 10, color: pal.grid, aa: aa
+      sx = plot_x + 40
+      sy = scatter_y + 16
+      sw = plot_w - 80
+      sh = scatter_h - 32
+      :rand.seed(:exsplus, {42, 84, 21})
+      for _ <- 1..120 do
+        px = sx + :rand.uniform() * (sw - 20) + 10
+        py = sy + :rand.uniform() * (sh - 20) + 10
+        rr = 4 + :rand.uniform() * 6
+        color = if :rand.uniform() < 0.5, do: pal.green, else: pal.blue
+        circle cx: px, cy: py, r: rr, color: color, aa: aa
+      end
+
+      # OHLC candles (bottom)
+      grid x: plot_x, y: ohlc_y, w: plot_w, h: ohlc_h, rows: 4, cols: 10, color: pal.grid, aa: aa
+      candle_chart x: plot_x+60, y: ohlc_y+16, w: plot_w-120, h: ohlc_h-32,
                    candles: Enum.map(0..18, fn _ ->
                      o = 0.45 + :rand.uniform() * 0.1
                      c = 0.45 + :rand.uniform() * 0.1
@@ -116,24 +153,7 @@ defmodule KitchenSink do
                      l = min(o,c) - :rand.uniform() * 0.1
                      {o,h,l,c}
                    end), up_color: pal.green, down_color: pal.red, aa: aa
-
-      # Legend
-      chip x: plot_x+40, y: plot_y+404, w: 120, h: 22, dot: pal.blue, aa: aa
-      chip x: plot_x+180, y: plot_y+404, w: 120, h: 22, dot: pal.green, aa: aa
-
-      # Clean scatter points without extra background
-      sx = plot_x + 120
-      sy = plot_y + 80
-      sw = plot_w - 240
-      sh = plot_h - 200
-      :rand.seed(:exsplus, {42, 84, 21})
-      for _ <- 1..100 do
-        px = sx + :rand.uniform() * (sw - 20) + 10
-        py = sy + :rand.uniform() * (sh - 20) + 10
-        rr = 4 + :rand.uniform() * 6
-        color = if :rand.uniform() < 0.5, do: pal.green, else: pal.blue
-        circle cx: px, cy: py, r: rr, color: color, aa: aa
-      end
+      chip x: plot_x+180, y: ohlc_y+ohlc_h-24, w: 120, h: 20, dot: pal.green, aa: aa
 
       # Footer
       text x: 80, y: height-96, text: "Rendered with CanvasCraft (Skia)", size: 14, color: pal.faint

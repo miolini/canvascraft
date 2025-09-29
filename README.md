@@ -26,7 +26,7 @@ This builds a small native library (Rust). You need a Rust toolchain (`rustup` r
 
 ## Preview
 
-![KitchenSink](examples/kitchensink/output.webp)
+![KitchenSink](kitchensink.webp)
 
 ## Quickstart (Declarative DSL)
 

@@ -10,8 +10,15 @@ defmodule CanvasCraft.Backends.Skia do
 
   alias CanvasCraft.Native.Skia, as: Native
 
+  defp ensure_app_started do
+    # Ensure the application is loaded/started so Rustler can resolve priv dir
+    _ = Application.ensure_all_started(:canvas_craft)
+    :ok
+  end
+
   @impl true
   def new_surface(w, h, opts) do
+    ensure_app_started()
     # Touch a NIF function to ensure Rustler loads the library
     _ = (try do Native.skia_hello() rescue _ -> :ok end)
     try do
