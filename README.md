@@ -24,6 +24,10 @@ This builds a small native library (Rust). You need a Rust toolchain (`rustup` r
 - Declarative DSL with named properties and per-element antialiasing
 - Primitives: clear, rect, circle; composites: panel, donut_segment, grid, scatter, progress_bar, line_chart, candle_chart
 
+## Preview
+
+![KitchenSink 1080p](examples/kitchensink/kitchen_1080p.webp)
+
 ## Quickstart (Declarative DSL)
 
 Minimal scene:
