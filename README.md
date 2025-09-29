@@ -1,33 +1,41 @@
 # CanvasCraft
 
-In-memory 2D rendering with a Skia backend (via Rustler). Declarative DSL for building charts and UI-like scenes, plus a pure-Elixir reference backend for tests and CI.
+In-memory 2D rendering with a Skia backend (via Rustler). 100% declarative Scene DSL for building charts and UI-like scenes, plus a pure-Elixir reference backend for tests and CI.
 
 ## Requirements
 - Elixir >= 1.16, OTP >= 26
-- Rust toolchain (for the Skia NIF)
-- To use the Skia backend, run with environment variable `CANVAS_CRAFT_ENABLE_NIF=1`
+- Rust toolchain (only if you use the Skia NIF)
+- To enable Skia: set `CANVAS_CRAFT_ENABLE_NIF=1`
 
-## Quickstart (Reference backend, no native build)
+## Quickstart (Declarative DSL)
+
+Minimal scene (no native build, Reference backend):
 
 ```elixir
-{:ok, handle} = CanvasCraft.create_canvas(128, 128, backend: CanvasCraft.Backends.Reference)
-:ok = CanvasCraft.clear(handle, {255, 255, 255, 255})
-:ok = CanvasCraft.fill_rect(handle, 16, 16, 96, 96, {0, 128, 255, 255})
-{:ok, webp} = CanvasCraft.export_webp(handle)
-File.write!("out.webp", webp)
+import CanvasCraft.Scene
+
+render width: 128, height: 128, backend: CanvasCraft.Backends.Reference, path: "out.webp" do
+  aa 4
+  clear {255, 255, 255, 255}
+  rect x: 16, y: 16, w: 96, h: 96, color: {0, 128, 255, 255}
+end
 ```
 
-## Quickstart (Skia backend, real WEBP, in-memory)
-
-- Ensure Rust toolchain is installed.
-- Run with `CANVAS_CRAFT_ENABLE_NIF=1` to enable the Skia NIF at runtime.
+Skia backend (real WEBP, in-memory):
 
 ```elixir
-{:ok, handle} = CanvasCraft.create_canvas(256, 256) # defaults to Skia backend
-:ok = CanvasCraft.set_antialias(handle, 4)
-:ok = CanvasCraft.fill_circle(handle, 128, 128, 80, {30, 180, 90, 255})
-{:ok, bin} = CanvasCraft.export_webp(handle)
-File.write!("circle.webp", bin)
+import CanvasCraft.Scene
+
+render width: 256, height: 256, backend: CanvasCraft.Backends.Skia, path: "circle.webp" do
+  aa 4
+  circle cx: 128, cy: 128, r: 80, color: {30, 180, 90, 255}
+end
+```
+
+zsh example:
+
+```sh
+env CANVAS_CRAFT_ENABLE_NIF=1 mix run -e 'import CanvasCraft.Scene; render width: 256, height: 256, backend: CanvasCraft.Backends.Skia, path: "circle.webp" do aa 4; circle cx: 128, cy: 128, r: 80, color: {30,180,90,255}; end'
 ```
 
 ## Declarative DSL
@@ -57,14 +65,16 @@ mix deps.get
 env CANVAS_CRAFT_ENABLE_NIF=1 mix run script.exs
 ```
 
-## In-Memory Workflow
-All exports return binaries so you can decide how/where to persist:
+## In-Memory Binary (no path)
+The DSL can return the image as a binary for streaming:
 
 ```elixir
-{:ok, handle} = CanvasCraft.create_canvas(1920, 1080)
-{:ok, webp} = CanvasCraft.export_webp(handle)
-# stream to HTTP response or save to disk
-:ok = File.write("dashboard.webp", webp)
+import CanvasCraft.Scene
+
+{:ok, webp} = render width: 320, height: 240, backend: CanvasCraft.Backends.Reference do
+  rect x: 20, y: 20, w: 120, h: 80, color: {60, 150, 255, 255}
+end
+File.write!("frame.webp", webp)
 ```
 
 ## CI
