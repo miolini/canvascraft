@@ -8,4 +8,5 @@ name = "canvas_craft_skia"
 crate-type = ["cdylib"]
 
 [dependencies]
-rustler = "0.34"
+rustler = "0.37"
+image = { version = "0.25", default-features = false, features = ["webp", "png"] }

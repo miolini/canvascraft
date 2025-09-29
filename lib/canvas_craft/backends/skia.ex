@@ -4,33 +4,16 @@ defmodule CanvasCraft.Backends.Skia do
 
   Select by passing `backend: #{__MODULE__}` to `CanvasCraft.create_canvas/3`.
   Delegates to NIFs declared in `CanvasCraft.Native.Skia` when available.
-  In dev/test (no NIF), functions will return {:error, :backend_unavailable} and
-  the facade maps to {:error, :backend_missing} to keep tests deterministic.
   """
 
   @behaviour CanvasCraft.Renderer
 
   alias CanvasCraft.Native.Skia, as: Native
 
-  @on_load :load_nif
-  def load_nif do
-    Application.ensure_all_started(:rustler)
-
-    case :erlang.whereis(Native) do
-      :undefined ->
-        try do
-          Native.load()
-        rescue
-          _ -> :ok
-        end
-      _ -> :ok
-    end
-
-    :ok
-  end
-
   @impl true
   def new_surface(w, h, opts) do
+    # Touch a NIF function to ensure Rustler loads the library
+    _ = (try do Native.skia_hello() rescue _ -> :ok end)
     try do
       {:ok, Native.new_surface(w, h, opts)}
     rescue
@@ -57,9 +40,12 @@ defmodule CanvasCraft.Backends.Skia do
   @impl true
   def export_webp(surface, opts) do
     try do
-      # Prefer native in-memory WEBP encoder when available
       cond do
-        function_exported?(Native, :encode_webp, 2) -> Native.encode_webp(surface, opts)
+        function_exported?(Native, :encode_webp, 2) ->
+          case Native.encode_webp(surface, opts) do
+            {:ok, bin} -> {:ok, bin}
+            other -> other
+          end
         true ->
           case Native.get_raw(surface) do
             {w, h, _stride, _bin} -> {:ok, ":webp:#{w}x#{h}"}
@@ -226,6 +212,30 @@ defmodule CanvasCraft.Backends.Skia do
     end
   end
 
+  def set_antialias(surface, aa) do
+    try do
+      Native.set_antialias(surface, aa)
+    rescue
+      _ -> {:error, :backend_unavailable}
+    end
+  end
+
   @impl true
   def capabilities, do: MapSet.new([:images, :gradients, :filters, :blending, :clipping, :effects])
+
+  def fill_rect(surface, x, y, w, h, {r,g,b,a}) do
+    try do
+      Native.fill_rect(surface, x, y, w, h, r, g, b, a)
+    rescue
+      _ -> {:error, :backend_unavailable}
+    end
+  end
+
+  def fill_circle(surface, cx, cy, radius, {r,g,b,a}) do
+    try do
+      Native.fill_circle(surface, cx, cy, radius, r, g, b, a)
+    rescue
+      _ -> {:error, :backend_unavailable}
+    end
+  end
 end

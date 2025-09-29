@@ -1,12 +1,9 @@
 defmodule CanvasCraft.Native.Skia do
   @moduledoc false
 
-  if Mix.env() == :prod do
+  if System.get_env("CANVAS_CRAFT_ENABLE_NIF") == "1" or Mix.env() == :dev do
     use Rustler, otp_app: :canvas_craft, crate: :canvas_craft_skia
   end
-
-  # NIF entry points (populated by Rustler in prod). Fallback raises when NIF not loaded.
-  def load, do: :ok
 
   def skia_hello, do: :erlang.nif_error(:nif_not_loaded)
 
@@ -113,4 +110,10 @@ defmodule CanvasCraft.Native.Skia do
   # Path effects
   @doc false
   def set_path_effect(_surface, _effect), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def clear(_surface, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def fill_rect(_surface, _x, _y, _w, _h, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def fill_circle(_surface, _cx, _cy, _radius, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
 end

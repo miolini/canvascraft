@@ -36,21 +36,14 @@ defmodule CanvasCraft do
   def create_canvas(width, height, opts \\ []) when width > 0 and height > 0 do
     backend = Keyword.get(opts, :backend, CanvasCraft.Backends.Skia)
 
-    if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia do
-      {:error, :backend_missing}
+    _ = Code.ensure_loaded(backend)
+
+    with true <- function_exported?(backend, :new_surface, 3) || {:error, :backend_missing},
+         {:ok, ref} <- backend.new_surface(width, height, opts) do
+      {:ok, {backend, ref}}
     else
-      with true <- function_exported?(backend, :new_surface, 3) || {:error, :backend_missing},
-           {:ok, ref} <- backend.new_surface(width, height, opts) do
-        {:ok, {backend, ref}}
-      else
-        {:error, reason} ->
-          if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia and reason == :backend_unavailable do
-            {:error, :backend_missing}
-          else
-            {:error, reason}
-          end
-        false -> {:error, :backend_missing}
-      end
+      {:error, reason} -> {:error, reason}
+      false -> {:error, :backend_missing}
     end
   end
 
@@ -68,32 +61,41 @@ defmodule CanvasCraft do
   @spec fill_rect(canvas_handle, number(), number(), number(), number()) :: :ok | {:error, term()}
   def fill_rect({_backend, _ref}, _x, _y, _w, _h), do: :ok
 
+  # Backward-compatible no-color variant (no-op default)
+  @spec fill_rect(canvas_handle, number(), number(), number(), number()) :: :ok | {:error, term()}
+  def fill_rect(handle, x, y, w, h), do: fill_rect(handle, x, y, w, h, {255,255,255,255})
+
+  @doc "Fill an axis-aligned rectangle with a color."
+  @spec fill_rect(canvas_handle, number(), number(), number(), number(), {0..255,0..255,0..255,0..255}) :: :ok | {:error, term()}
+  def fill_rect({backend, ref}, x, y, w, h, {_r,_g,_b,_a} = rgba) do
+    cond do
+      function_exported?(backend, :fill_rect, 6) -> backend.fill_rect(ref, x, y, w, h, rgba)
+      true -> {:error, :unsupported}
+    end
+  end
+
   @doc """
   Export the canvas using backend. Defaults to PNG; if opts[:format] == :webp
   and the backend implements export_webp/2, that path is used.
   """
   @spec export_png(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
   def export_png({backend, ref}, opts \\ []) do
-    if Mix.env() != :prod and backend == CanvasCraft.Backends.Skia do
-      {:error, :backend_missing}
-    else
-      case Keyword.get(opts, :format, :png) do
-        :png ->
-          if function_exported?(backend, :export_png, 2) do
-            backend.export_png(ref, opts)
-          else
-            {:error, :backend_missing}
-          end
+    case Keyword.get(opts, :format, :png) do
+      :png ->
+        if function_exported?(backend, :export_png, 2) do
+          backend.export_png(ref, opts)
+        else
+          {:error, :backend_missing}
+        end
 
-        :webp ->
-          cond do
-            function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
-            function_exported?(backend, :export_png, 2) -> backend.export_png(ref, Keyword.put(opts, :format, :webp))
-            true -> {:error, :backend_missing}
-          end
+      :webp ->
+        cond do
+          function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
+          function_exported?(backend, :export_png, 2) -> backend.export_png(ref, Keyword.put(opts, :format, :webp))
+          true -> {:error, :backend_missing}
+        end
 
-        _ -> {:error, :unsupported_format}
-      end
+      _ -> {:error, :unsupported_format}
     end
   end
 
@@ -103,13 +105,6 @@ defmodule CanvasCraft do
   @spec export_webp(canvas_handle, keyword()) :: {:ok, binary()} | {:error, term()}
   def export_webp({backend, ref}, opts \\ []) do
     cond do
-      Mix.env() != :prod and backend == CanvasCraft.Backends.Skia ->
-        # Keep deterministic behaviour in non-prod when NIF is unavailable
-        case export_png({backend, ref}, Keyword.put(opts, :format, :webp)) do
-          {:ok, bin} -> {:ok, bin}
-          other -> other
-        end
-
       function_exported?(backend, :export_webp, 2) -> backend.export_webp(ref, opts)
       true -> {:error, :backend_missing}
     end
@@ -156,6 +151,27 @@ defmodule CanvasCraft do
   def export_webp_to_file(handle, path, opts \\ []) do
     with {:ok, bin} <- export_webp(handle, opts) do
       File.write(path, bin)
+    end
+  end
+
+  @doc "Enable/disable antialiasing or set sample count (1,4,8)."
+  @spec set_antialias(canvas_handle, boolean() | 1 | 4 | 8) :: :ok | {:error, term()}
+  def set_antialias({backend, ref}, aa) do
+    if function_exported?(backend, :set_antialias, 2) do
+      backend.set_antialias(ref, aa)
+    else
+      {:error, :unsupported}
+    end
+  end
+
+  @doc """
+  Fill a circle with a color.
+  """
+  @spec fill_circle(canvas_handle, number(), number(), number(), {0..255,0..255,0..255,0..255}) :: :ok | {:error, term()}
+  def fill_circle({backend, ref}, cx, cy, radius, {_r,_g,_b,_a} = rgba) do
+    cond do
+      function_exported?(backend, :fill_circle, 5) -> backend.fill_circle(ref, cx, cy, radius, rgba)
+      true -> {:error, :unsupported}
     end
   end
 end
