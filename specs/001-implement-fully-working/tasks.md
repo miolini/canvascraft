@@ -146,7 +146,7 @@
 - [x] T048 [P] Add README.md with quickstart and Skia backend selection
 - [x] T049 [P] Add CONTRIBUTING.md with Constitution summary and CI gates
 - [x] T050 [P] Finalize CI to mark benchmark regressions as warnings
-- [ ] T051 Release 0.1.0 (MVP) tag when all tests pass
+- [x] T051 Release 0.1.0 (MVP) tag when all tests pass
 
 ## Dependencies
 - Setup (T001–T007) before Tests (T008–T014)

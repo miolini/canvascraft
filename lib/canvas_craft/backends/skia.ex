@@ -17,7 +17,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       {:ok, Native.new_surface(w, h, opts)}
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -32,7 +32,7 @@ defmodule CanvasCraft.Backends.Skia do
             _ -> {:error, :export_failed}
           end
         rescue
-          _ -> {:error, :backend_unavailable}
+          _ -> {:error, :backend_missing}
         end
     end
   end
@@ -53,7 +53,7 @@ defmodule CanvasCraft.Backends.Skia do
           end
       end
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -75,7 +75,7 @@ defmodule CanvasCraft.Backends.Skia do
           end
       end
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -85,7 +85,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.load_image_from_path(surface, path)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -94,7 +94,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.load_image_from_binary(surface, data)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -103,7 +103,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.draw_image(surface, image_ref, x, y, opts)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -113,7 +113,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_linear_gradient(surface, x0, y0, x1, y1, stops)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -122,7 +122,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_radial_gradient(surface, cx, cy, r, stops)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -132,7 +132,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_color_filter(surface, filter)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -141,7 +141,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_image_filter(surface, filter)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -151,7 +151,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_blend_mode(surface, mode)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -160,7 +160,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.save_layer(surface, opts)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -170,7 +170,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.clip_rect(surface, x, y, w, h, mode)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -180,7 +180,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.draw_round_rect(surface, x, y, w, h, rx, ry)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -189,7 +189,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.draw_oval(surface, cx, cy, rx, ry)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -198,7 +198,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.draw_arc(surface, cx, cy, r, start_deg, sweep_deg)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -208,7 +208,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_path_effect(surface, effect)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -216,7 +216,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.set_antialias(surface, aa)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -227,7 +227,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.fill_rect(surface, x, y, w, h, r, g, b, a)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 
@@ -235,7 +235,7 @@ defmodule CanvasCraft.Backends.Skia do
     try do
       Native.fill_circle(surface, cx, cy, radius, r, g, b, a)
     rescue
-      _ -> {:error, :backend_unavailable}
+      _ -> {:error, :backend_missing}
     end
   end
 end
