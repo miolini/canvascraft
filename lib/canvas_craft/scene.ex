@@ -4,9 +4,7 @@ defmodule CanvasCraft.Scene do
 
   Example:
       import CanvasCraft.Scene
-      render width: 1920, height: 1080, backend: CanvasCraft.Backends.Skia, path: "out.webp" do
-        aa 8
-        clear {30,34,40,255}
+      render width: 1920, height: 1080, path: "out.webp" do
         rect 60, 60, 1800, 960, {42,46,54,255}
         circle 300, 260, 110, {35,132,252,255}
       end
@@ -14,17 +12,36 @@ defmodule CanvasCraft.Scene do
   All commands are expanded to `CanvasCraft` API calls against an internal `handle`.
   """
 
-  # Render entry macro
+  # Render entry macro with declarative scene-level options
   defmacro render(opts, do: block) do
     quote do
       backend = Keyword.get(unquote(opts), :backend, CanvasCraft.Backends.Skia)
       width = Keyword.fetch!(unquote(opts), :width)
       height = Keyword.fetch!(unquote(opts), :height)
       path = Keyword.get(unquote(opts), :path)
+      aa_opt = Keyword.get(unquote(opts), :aa)
+      bg_opt = Keyword.get(unquote(opts), :background)
+      font_opt = Keyword.get(unquote(opts), :font)
 
       case CanvasCraft.create_canvas(width, height, backend: backend) do
         {:ok, {^backend, ref}} ->
           handle = {backend, ref}
+          # apply scene-level declarative options
+          if aa_opt do
+            _ = CanvasCraft.set_antialias(handle, aa_opt)
+            Process.put(:cc_aa, aa_opt)
+          end
+          if is_list(font_opt) do
+            fpath = font_opt[:path] |> to_string()
+            fsize = font_opt[:size]
+            _ = CanvasCraft.load_font(handle, fpath)
+            if fsize, do: CanvasCraft.set_font_size(handle, fsize)
+            Process.put(:cc_font_default, {fpath, fsize})
+          else
+            Process.put(:cc_font_default, nil)
+          end
+          if bg_opt, do: CanvasCraft.clear(handle, bg_opt)
+
           CanvasCraft.Scene.__run(handle, fn -> unquote(block) end)
           case CanvasCraft.export_webp(handle) do
             {:ok, bin} ->
@@ -602,22 +619,50 @@ defmodule CanvasCraft.Scene do
     :ok
   end
 
-  # --- Real text using backend font ---
+  # --- Real text using backend font (per-element overrides supported) ---
   def __kw_real_text(props) when is_list(props) do
     x = Keyword.fetch!(props, :x)
     y = Keyword.fetch!(props, :y)
     txt = Keyword.fetch!(props, :text)
     size = Keyword.get(props, :size)
+    font_override = Keyword.get(props, :font)
     {r,g,b,a} = Keyword.get(props, :color, {230,236,246,255})
-    if size, do: CanvasCraft.set_font_size(handle!(), size)
+
+    default = Process.get(:cc_font_default)
+    # apply per-element font/size
+    if is_list(font_override) do
+      fpath = font_override[:path]
+      if fpath, do: CanvasCraft.load_font(handle!(), to_string(fpath))
+      if font_override[:size], do: CanvasCraft.set_font_size(handle!(), font_override[:size])
+    end
+    if size && not is_list(font_override) do
+      # size-only override
+      CanvasCraft.set_font_size(handle!(), size)
+    end
+
     case CanvasCraft.draw_text(handle!(), x, y, txt, {r,g,b,a}) do
       :ok -> :ok
       _ ->
-        # Fallback to pixel text with scale derived from size when provided
         fallback_scale = Keyword.get(props, :fallback_scale, if(size, do: max(1, round(size / 8)), else: 2))
         spacing = Keyword.get(props, :spacing, 1)
         __kw_text([x: x, y: y, text: String.upcase(txt), scale: fallback_scale, spacing: spacing, color: {r,g,b,a}])
     end
+    # restore default font after per-element override
+    if is_list(font_override) do
+      case default do
+        {path, sz} when is_binary(path) ->
+          _ = CanvasCraft.load_font(handle!(), path)
+          if sz, do: CanvasCraft.set_font_size(handle!(), sz)
+        _ -> :ok
+      end
+    else
+      if size && match?({_, _}, default) do
+        # restore default size when only size was overridden
+        {_path, sz} = default
+        if sz, do: CanvasCraft.set_font_size(handle!(), sz)
+      end
+    end
+    :ok
   end
 
   def __kw_set_font(props) when is_list(props) do
@@ -648,4 +693,6 @@ defmodule CanvasCraft.Scene do
   # Export macros for paragraph and real text
   defmacro paragraph(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_paragraph(unquote(props))
   defmacro text_real(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_real_text(unquote(props))
+  # New: main text macro maps to real text renderer
+  defmacro text(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_real_text(unquote(props))
 end
