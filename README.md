@@ -55,7 +55,6 @@ File.write!("circle.webp", webp)
 - Named properties on all elements: `rect x:, y:, w:, h:, color:` etc.
 
 ## Examples
-- `examples/earth_planet` – minimal
 - `examples/kitchensink` – 1080p dashboard using the DSL
 
 Run KitchenSink:
