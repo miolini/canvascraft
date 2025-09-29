@@ -238,4 +238,33 @@ defmodule CanvasCraft.Backends.Skia do
       _ -> {:error, :backend_missing}
     end
   end
+
+  # Text
+  def load_font(surface, path) do
+    try do
+      CanvasCraft.Native.Skia.font_load_path(surface, path)
+    rescue
+      _ -> {:error, :backend_missing}
+    end
+  end
+
+  def set_font_size(surface, size) do
+    try do
+      CanvasCraft.Native.Skia.font_set_size(surface, size)
+    rescue
+      _ -> {:error, :backend_missing}
+    end
+  end
+
+  def draw_text(surface, x, y, text, {r,g,b,a}) do
+    try do
+      case CanvasCraft.Native.Skia.draw_text(surface, x, y, text, r, g, b, a) do
+        {:ok} -> :ok
+        :ok -> :ok
+        _ -> :ok
+      end
+    rescue
+      _ -> {:error, :backend_missing}
+    end
+  end
 end

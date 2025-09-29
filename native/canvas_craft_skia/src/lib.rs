@@ -16,6 +16,8 @@ struct SurfaceInner {
     buf: Vec<u8>, // RGBA8
     shader: Option<Radial>,
     aa_samples: u8,
+    font: Option<rusttype::Font<'static>>,
+    font_scale: f32,
 }
 
 struct Surface(Mutex<SurfaceInner>);
@@ -27,7 +29,7 @@ fn skia_hello<'a>(env: Env<'a>) -> NifResult<Term<'a>> {
 
 #[rustler::nif]
 fn new_surface<'a>(env: Env<'a>, w: i64, h: i64, _opts: Term<'a>) -> NifResult<ResourceArc<Surface>> {
-    let _ = env; // not used currently
+    let _ = env;
     let w = w.max(1) as usize;
     let h = h.max(1) as usize;
     let buf = vec![0u8; w * h * 4];
@@ -37,6 +39,8 @@ fn new_surface<'a>(env: Env<'a>, w: i64, h: i64, _opts: Term<'a>) -> NifResult<R
         buf,
         shader: None,
         aa_samples: 4,
+        font: None,
+        font_scale: 18.0,
     }))))
 }
 
@@ -240,6 +244,50 @@ fn fill_circle<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy: f64, r
     Ok(rustler::types::atom::ok().encode(env))
 }
 
+#[rustler::nif]
+fn font_load_path<'a>(env: Env<'a>, surf: ResourceArc<Surface>, path: String) -> NifResult<Term<'a>> {
+    let data = std::fs::read(path).map_err(|_| rustler::Error::Term(Box::new("font_read_failed")))?;
+    let font = rusttype::Font::try_from_vec(data).ok_or(rustler::Error::Term(Box::new("font_bad")))?;
+    let mut guard = surf.0.lock().unwrap();
+    guard.font = Some(font);
+    Ok(rustler::types::atom::ok().encode(env))
+}
+
+#[rustler::nif]
+fn font_set_size<'a>(env: Env<'a>, surf: ResourceArc<Surface>, size: f64) -> NifResult<Term<'a>> {
+    let mut guard = surf.0.lock().unwrap();
+    guard.font_scale = size as f32;
+    Ok(rustler::types::atom::ok().encode(env))
+}
+
+#[rustler::nif]
+fn draw_text<'a>(env: Env<'a>, surf: ResourceArc<Surface>, x: f64, y: f64, text: String, r: u8, g: u8, b: u8, a: u8) -> NifResult<Term<'a>> {
+    let mut guard = surf.0.lock().unwrap();
+    let font = match &guard.font { Some(f) => f.clone(), None => return Ok(rustler::types::atom::ok().encode(env)) };
+    let scale = rusttype::Scale::uniform(guard.font_scale);
+    let v_metrics = font.v_metrics(scale);
+    let baseline = y as f32 + v_metrics.ascent;
+    let start = rusttype::point(x as f32, baseline);
+    let glyphs: Vec<_> = font.layout(&text, scale, start).collect();
+    let sa = a as f32 / 255.0;
+    for gph in glyphs {
+        if let Some(bb) = gph.pixel_bounding_box() {
+            gph.draw(|gx, gy, v| {
+                if v <= 0.0 { return; }
+                let px = bb.min.x + gx as i32;
+                let py = bb.min.y + gy as i32;
+                if px < 0 || py < 0 { return; }
+                let (pxu, pyu) = (px as usize, py as usize);
+                if pxu >= guard.w || pyu >= guard.h { return; }
+                let idx = (pyu * guard.w + pxu) * 4;
+                let alpha = (v as f32) * sa;
+                blend_src_over(&mut guard.buf, idx, r, g, b, alpha);
+            });
+        }
+    }
+    Ok(rustler::types::atom::ok().encode(env))
+}
+
 fn load(env: Env, _info: Term) -> bool {
     rustler::resource!(Surface, env);
     true
@@ -247,6 +295,6 @@ fn load(env: Env, _info: Term) -> bool {
 
 rustler::init!(
     "Elixir.CanvasCraft.Native.Skia",
-    [skia_hello, new_surface, get_rgba_buffer, encode_webp, set_radial_gradient, draw_oval, set_antialias, clear, fill_rect, fill_circle],
+    [skia_hello, new_surface, get_rgba_buffer, encode_webp, set_radial_gradient, draw_oval, set_antialias, clear, fill_rect, fill_circle, font_load_path, font_set_size, draw_text],
     load = load
 );

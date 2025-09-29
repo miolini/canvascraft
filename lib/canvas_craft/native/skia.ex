@@ -14,6 +14,14 @@ defmodule CanvasCraft.Native.Skia do
   @doc false
   def get_rgba_buffer(_surface), do: :erlang.nif_error(:nif_not_loaded)
 
+  # Text
+  @doc false
+  def font_load_path(_surface, _path), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def font_set_size(_surface, _pt), do: :erlang.nif_error(:nif_not_loaded)
+  @doc false
+  def draw_text(_surface, _x, _y, _utf8, _r, _g, _b, _a), do: :erlang.nif_error(:nif_not_loaded)
+
   # Path building (T018)
   @doc false
   def path_begin(_surface), do: :erlang.nif_error(:nif_not_loaded)
@@ -53,14 +61,6 @@ defmodule CanvasCraft.Native.Skia do
   def scale(_surface, _sx, _sy), do: :erlang.nif_error(:nif_not_loaded)
   @doc false
   def rotate(_surface, _deg), do: :erlang.nif_error(:nif_not_loaded)
-
-  # Text drawing (T021)
-  @doc false
-  def font_load_path(_surface, _path), do: :erlang.nif_error(:nif_not_loaded)
-  @doc false
-  def font_set_size(_surface, _pt), do: :erlang.nif_error(:nif_not_loaded)
-  @doc false
-  def draw_text(_surface, _x, _y, _utf8_binary), do: :erlang.nif_error(:nif_not_loaded)
 
   # Encoding (T022)
   @doc false

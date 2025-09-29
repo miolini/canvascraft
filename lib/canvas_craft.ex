@@ -174,4 +174,33 @@ defmodule CanvasCraft do
       true -> {:error, :unsupported}
     end
   end
+
+  @doc "Load a TTF/OTF font from a filesystem path for the current backend (when supported)."
+  @spec load_font(canvas_handle, Path.t()) :: :ok | {:error, term()}
+  def load_font({backend, ref}, path) when is_binary(path) do
+    cond do
+      function_exported?(backend, :load_font, 2) -> backend.load_font(ref, path)
+      function_exported?(backend, :font_load_path, 2) -> backend.font_load_path(ref, path)
+      true -> {:error, :unsupported}
+    end
+  end
+
+  @doc "Set current font size in points/pixels (backend-defined units)."
+  @spec set_font_size(canvas_handle, number()) :: :ok | {:error, term()}
+  def set_font_size({backend, ref}, size) when is_number(size) do
+    cond do
+      function_exported?(backend, :set_font_size, 2) -> backend.set_font_size(ref, size)
+      function_exported?(backend, :font_set_size, 2) -> backend.font_set_size(ref, size)
+      true -> {:error, :unsupported}
+    end
+  end
+
+  @doc "Draw UTF-8 text at x,y with RGBA color."
+  @spec draw_text(canvas_handle, number(), number(), String.t(), {0..255,0..255,0..255,0..255}) :: :ok | {:error, term()}
+  def draw_text({backend, ref}, x, y, text, {r,g,b,a}) when is_binary(text) do
+    cond do
+      function_exported?(backend, :draw_text, 5) -> backend.draw_text(ref, x, y, text, {r,g,b,a})
+      true -> {:error, :unsupported}
+    end
+  end
 end

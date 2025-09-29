@@ -642,4 +642,31 @@ defmodule CanvasCraft.Scene do
   defmacro heading(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_heading(unquote(props))
   defmacro paragraph(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_paragraph(unquote(props))
   defmacro divider(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_divider(unquote(props))
+
+  # --- Real text using backend font ---
+  def __kw_real_text(props) when is_list(props) do
+    x = Keyword.fetch!(props, :x)
+    y = Keyword.fetch!(props, :y)
+    txt = Keyword.fetch!(props, :text)
+    {r,g,b,a} = Keyword.get(props, :color, {230,236,246,255})
+    case CanvasCraft.draw_text(handle!(), x, y, txt, {r,g,b,a}) do
+      :ok -> :ok
+      _ ->
+        # Fallback to pixel text
+        scale = Keyword.get(props, :fallback_scale, 2)
+        spacing = Keyword.get(props, :spacing, 1)
+        __kw_text([x: x, y: y, text: String.upcase(txt), scale: scale, spacing: spacing, color: {r,g,b,a}])
+    end
+  end
+
+  defmacro text_real(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_real_text(unquote(props))
+
+  def __kw_set_font(props) when is_list(props) do
+    path = Keyword.fetch!(props, :path) |> to_string()
+    size = Keyword.get(props, :size, 18)
+    _ = CanvasCraft.load_font(handle!(), path)
+    _ = CanvasCraft.set_font_size(handle!(), size)
+    :ok
+  end
+  defmacro set_font(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_set_font(unquote(props))
 end
