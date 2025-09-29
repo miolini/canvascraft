@@ -1,5 +1,7 @@
 # CanvasCraft
 
+![Elixir](https://img.shields.io/badge/Elixir-4B275F?style=flat&logo=elixir&logoColor=white)
+
 In-memory 2D rendering with a Skia backend (via Rustler). 100% declarative Scene DSL for building charts and UI-like scenes.
 
 ## Requirements
