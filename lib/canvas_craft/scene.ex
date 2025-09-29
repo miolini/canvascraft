@@ -577,7 +577,9 @@ defmodule CanvasCraft.Scene do
     x = Keyword.fetch!(props, :x)
     y = Keyword.fetch!(props, :y)
     str = Keyword.fetch!(props, :text)
-    scale = Keyword.get(props, :scale, 2)
+    size = Keyword.get(props, :size)
+    # Map size to pixel scale if provided (roughly 1 scale ~= 8pt)
+    scale = Keyword.get(props, :scale, if(size, do: max(1, round(size / 8)), else: 2))
     color = Keyword.get(props, :color, {220,226,236,255})
     spacing = Keyword.get(props, :spacing, 1)
     Enum.reduce(String.to_charlist(str), %{x: x, y: y}, fn ch, cursor ->
@@ -600,66 +602,23 @@ defmodule CanvasCraft.Scene do
     :ok
   end
 
-  defmacro text(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_text(unquote(props))
-
-  # --- Text-like block helpers ---
-  def __kw_heading(props) when is_list(props) do
-    x = Keyword.fetch!(props, :x)
-    y = Keyword.fetch!(props, :y)
-    w = Keyword.fetch!(props, :w)
-    h = Keyword.get(props, :h, 24)
-    tone = Keyword.get(props, :tone, {220,226,236,255})
-    __kw_rect([x: x, y: y, w: w, h: h, color: tone])
-  end
-
-  def __kw_paragraph(props) when is_list(props) do
-    x = Keyword.fetch!(props, :x)
-    y = Keyword.fetch!(props, :y)
-    w = Keyword.fetch!(props, :w)
-    lines = Keyword.get(props, :lines, 3)
-    gap = Keyword.get(props, :gap, 10)
-    h = Keyword.get(props, :h, 16)
-    tone = Keyword.get(props, :tone, {58,63,72,255})
-    scales = Keyword.get(props, :scales, Enum.take(Stream.cycle([1.0, 0.8, 0.6, 0.9]), lines))
-    Enum.with_index(scales)
-    |> Enum.each(fn {s, i} ->
-      yy = y + i * (h + gap)
-      __kw_rect([x: x, y: yy, w: trunc(w * s), h: h, color: tone])
-    end)
-    :ok
-  end
-
-  def __kw_divider(props) when is_list(props) do
-    x = Keyword.fetch!(props, :x)
-    y = Keyword.fetch!(props, :y)
-    w = Keyword.fetch!(props, :w)
-    h = Keyword.get(props, :h, 2)
-    tone = Keyword.get(props, :tone, {52,56,66,255})
-    __kw_rect([x: x, y: y, w: w, h: h, color: tone])
-  end
-
-  # --- Macros for text-like helpers ---
-  defmacro heading(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_heading(unquote(props))
-  defmacro paragraph(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_paragraph(unquote(props))
-  defmacro divider(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_divider(unquote(props))
-
   # --- Real text using backend font ---
   def __kw_real_text(props) when is_list(props) do
     x = Keyword.fetch!(props, :x)
     y = Keyword.fetch!(props, :y)
     txt = Keyword.fetch!(props, :text)
+    size = Keyword.get(props, :size)
     {r,g,b,a} = Keyword.get(props, :color, {230,236,246,255})
+    if size, do: CanvasCraft.set_font_size(handle!(), size)
     case CanvasCraft.draw_text(handle!(), x, y, txt, {r,g,b,a}) do
       :ok -> :ok
       _ ->
-        # Fallback to pixel text
-        scale = Keyword.get(props, :fallback_scale, 2)
+        # Fallback to pixel text with scale derived from size when provided
+        fallback_scale = Keyword.get(props, :fallback_scale, if(size, do: max(1, round(size / 8)), else: 2))
         spacing = Keyword.get(props, :spacing, 1)
-        __kw_text([x: x, y: y, text: String.upcase(txt), scale: scale, spacing: spacing, color: {r,g,b,a}])
+        __kw_text([x: x, y: y, text: String.upcase(txt), scale: fallback_scale, spacing: spacing, color: {r,g,b,a}])
     end
   end
-
-  defmacro text_real(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_real_text(unquote(props))
 
   def __kw_set_font(props) when is_list(props) do
     path = Keyword.fetch!(props, :path) |> to_string()
@@ -669,4 +628,24 @@ defmodule CanvasCraft.Scene do
     :ok
   end
   defmacro set_font(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_set_font(unquote(props))
+
+  # --- Paragraph helper (placeholder text rows) ---
+  def __kw_paragraph(props) when is_list(props) do
+    x = Keyword.fetch!(props, :x)
+    y = Keyword.fetch!(props, :y)
+    w = Keyword.fetch!(props, :w)
+    lines = Keyword.get(props, :lines, 3)
+    gap = Keyword.get(props, :gap, 10)
+    h = Keyword.get(props, :h, 16)
+    tone = Keyword.get(props, :tone, {58,63,72,255})
+    Enum.each(0..(lines-1), fn i ->
+      yy = y + i * (h + gap)
+      __kw_rect([x: x, y: yy, w: trunc(w * (0.9 - 0.1 * rem(i, 3))), h: h, color: tone])
+    end)
+    :ok
+  end
+
+  # Export macros for paragraph and real text
+  defmacro paragraph(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_paragraph(unquote(props))
+  defmacro text_real(props) when is_list(props), do: quote do: CanvasCraft.Scene.__kw_real_text(unquote(props))
 end

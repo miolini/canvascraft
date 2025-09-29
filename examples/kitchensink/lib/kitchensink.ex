@@ -27,7 +27,7 @@ defmodule KitchenSink do
 
       # Header
       linear_gradient_rect x: 40, y: 40, w: width-80, h: 64, vertical: true, from: {54,58,68,255}, to: {44,48,58,255}
-      text_real x: 72, y: 56, text: "CanvasCraft Dashboard", color: {230,236,246,255}
+      text_real x: 72, y: 56, text: "CanvasCraft Dashboard", size: 26, color: {230,236,246,255}
       chip_y = 56
       chip x: width-80-360, y: chip_y, w: 116, h: 22, dot: {120,195,255,255}
       chip x: width-80-232, y: chip_y, w: 116, h: 22, dot: {90,205,140,255}
@@ -40,7 +40,7 @@ defmodule KitchenSink do
       left_h = 540
       panel x: left_x, y: left_y, w: left_w, h: left_h, color: {48,52,62,255}
       linear_gradient_rect x: left_x, y: left_y, w: left_w, h: 40, vertical: true, from: {58,62,72,255}, to: {48,52,62,255}
-      text_real x: left_x+24, y: left_y+24, text: "Overview", color: {200,230,250,255}
+      text_real x: left_x+24, y: left_y+24, text: "Overview", size: 18, color: {200,230,250,255}
       paragraph x: left_x+20, y: left_y+56, w: left_w-40, h: 14, lines: 3
 
       # Donut visualization
@@ -63,10 +63,10 @@ defmodule KitchenSink do
       sys_h = 140
       panel x: sys_x, y: sys_y, w: sys_w, h: sys_h, color: {48,52,62,255}
       linear_gradient_rect x: sys_x, y: sys_y, w: sys_w, h: 32, vertical: true, from: {58,62,72,255}, to: {48,52,62,255}
-      text_real x: sys_x+20, y: sys_y+24, text: "System", color: {200,210,224,255}
-      text_real x: sys_x+20, y: sys_y+58, text: "CPU", color: {200,210,224,255}
+      text_real x: sys_x+20, y: sys_y+24, text: "System", size: 16, color: {200,210,224,255}
+      text_real x: sys_x+20, y: sys_y+58, text: "CPU", size: 14, color: {200,210,224,255}
       progress_bar x: sys_x+90, y: sys_y+54, w: sys_w-150, h: 18, pct: 0.68, aa: 8
-      text_real x: sys_x+20, y: sys_y+96, text: "MEM", color: {200,210,224,255}
+      text_real x: sys_x+20, y: sys_y+96, text: "MEM", size: 14, color: {200,210,224,255}
       progress_bar x: sys_x+90, y: sys_y+92, w: sys_w-150, h: 18, pct: 0.42, aa: 8
 
       # Right column: Analytics card
@@ -76,7 +76,7 @@ defmodule KitchenSink do
       right_h = height - 80 - right_y - 32
       panel x: right_x, y: right_y, w: right_w, h: right_h, color: {50,54,64,255}
       linear_gradient_rect x: right_x, y: right_y, w: right_w, h: 40, vertical: true, from: {60,64,74,255}, to: {50,54,64,255}
-      text_real x: right_x+32, y: right_y+24, text: "Analytics", color: {230,236,246,255}
+      text_real x: right_x+32, y: right_y+24, text: "Analytics", size: 18, color: {230,236,246,255}
 
       plot_x = right_x + 28
       plot_y = right_y + 68
@@ -101,7 +101,7 @@ defmodule KitchenSink do
 
       scatter x: plot_x+120, y: plot_y+80, w: plot_w-240, h: plot_h-200, count: 100, seed: 42
 
-      text_real x: 72, y: height-96, text: "Rendered with CanvasCraft (Skia)", color: {120,130,144,255}
+      text_real x: 72, y: height-96, text: "Rendered with CanvasCraft (Skia)", size: 14, color: {120,130,144,255}
     end
 
     case result do
