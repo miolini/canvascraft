@@ -5,14 +5,14 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.38.4">
-    <meta name="project" content="canvas_craft v0.1.0">
+    <meta name="project" content="canvas_craft v0.2.0">
 
 
-    <title>Changelog — canvas_craft v0.1.0</title>
+    <title>Changelog — canvas_craft v0.2.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-RLZO5U2C.css" />
 
-    <script defer src="dist/sidebar_items-FE044EB5.js"></script>
+    <script defer src="dist/sidebar_items-915BE43E.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y223O6DN.js"></script>
 
@@ -37,7 +37,7 @@
 canvas_craft
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.1.0
+          v0.2.0
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ canvas_craft
     <h1>Changelog</h1>
 
 
-      <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/CHANGELOG.md#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/CHANGELOG.md#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -85,7 +85,7 @@ canvas_craft
   </div>
 
 
-<p>All notable changes to this project will be documented in this file.</p><p>The format is based on Keep a Changelog and this project adheres to Semantic Versioning.</p><h2 id="0-1-0-2025-09-28" class="section-heading"><a href="#0-1-0-2025-09-28" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">[0.1.0] - 2025-09-28</span></h2><h3 id="added" class="section-heading"><a href="#added" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Added</span></h3><ul><li>Minimal, fully working Skia backend via Rustler NIF producing real WEBP binaries (in-memory, zero-FS path).</li><li>Public API facade (<a href="CanvasCraft.html"><code class="inline">CanvasCraft</code></a>) with <code class="inline">create_canvas/2-3</code>, <code class="inline">export_webp/1-2</code>, and <code class="inline">export_raw/1</code>.</li><li>Declarative DSL (<a href="CanvasCraft.Scene.html"><code class="inline">CanvasCraft.Scene</code></a>) with positional and named properties, including per-element antialiasing.</li><li>Shapes and primitives: clear, rect, circle, panel, donut segment, grid, scatter, progress bar.</li><li>Chart helpers: line chart and candle chart; text helpers: <code class="inline">text_bar</code>.</li><li>Capability discovery (<a href="CanvasCraft.Capabilities.html"><code class="inline">CanvasCraft.Capabilities</code></a>).</li><li>Reference backend for fast tests and benchmarks.</li><li>Examples: <code class="inline">earth_planet</code> and <code class="inline">kitchensink</code> (1080p dashboard) using the declarative DSL.</li><li>Benchmarks for draw ops, images/filters, and in-memory encoding.</li></ul><h3 id="changed" class="section-heading"><a href="#changed" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Changed</span></h3><ul><li>CI runs formatting, Credo, Dialyzer, tests, and non-blocking benchmarks.</li></ul><h3 id="notes" class="section-heading"><a href="#notes" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Notes</span></h3><ul><li>Requires Rust toolchain for building the NIF.</li></ul>
+<p>All notable changes to this project will be documented in this file.</p><p>The format is based on Keep a Changelog and this project adheres to Semantic Versioning.</p><h2 id="0-2-0-2025-09-28" class="section-heading"><a href="#0-2-0-2025-09-28" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">[0.2.0] - 2025-09-28</span></h2><h3 id="added" class="section-heading"><a href="#added" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Added</span></h3><ul><li>Scene-level options in <code class="inline">render/2</code> (aa/background/font) and per-element <code class="inline">aa:</code> support across helpers.</li><li>New UI helpers: <code class="inline">linear_gradient_rect</code>, <code class="inline">radial_gradient_circle</code>, <code class="inline">chip</code>, <code class="inline">paragraph</code>, and real <code class="inline">text</code> with font loading.</li><li>Kitchensink example refactor: palette, balanced header, system meters with percentages, and split analytics into non-overlapping subplots (trend, scatter, OHLC).</li></ul><h3 id="fixed" class="section-heading"><a href="#fixed" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Fixed</span></h3><ul><li>Anti-aliasing now works for circles (Rust NIF <code class="inline">fill_circle</code> uses MSAA samples); visuals are smoother.</li><li>Consistent AA pass-through in named-property helpers (grid/line_chart/candle_chart/etc.).</li></ul><h3 id="changed" class="section-heading"><a href="#changed" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Changed</span></h3><ul><li>README updated with accurate run commands and Hex badge.</li></ul><h2 id="0-1-0-2025-09-28" class="section-heading"><a href="#0-1-0-2025-09-28" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">[0.1.0] - 2025-09-28</span></h2><h3 id="added-1" class="section-heading"><a href="#added-1" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Added</span></h3><ul><li>Minimal, fully working Skia backend via Rustler NIF producing real WEBP binaries (in-memory, zero-FS path).</li><li>Public API facade (<a href="CanvasCraft.html"><code class="inline">CanvasCraft</code></a>) with <code class="inline">create_canvas/2-3</code>, <code class="inline">export_webp/1-2</code>, and <code class="inline">export_raw/1</code>.</li><li>Declarative DSL (<a href="CanvasCraft.Scene.html"><code class="inline">CanvasCraft.Scene</code></a>) with positional and named properties, including per-element antialiasing.</li><li>Shapes and primitives: clear, rect, circle, panel, donut segment, grid, scatter, progress bar.</li><li>Chart helpers: line chart and candle chart; text helpers: <code class="inline">text_bar</code>.</li><li>Capability discovery (<a href="CanvasCraft.Capabilities.html"><code class="inline">CanvasCraft.Capabilities</code></a>).</li><li>Reference backend for fast tests and benchmarks.</li><li>Examples: <code class="inline">earth_planet</code> and <code class="inline">kitchensink</code> (1080p dashboard) using the declarative DSL.</li><li>Benchmarks for draw ops, images/filters, and in-memory encoding.</li></ul><h3 id="changed-1" class="section-heading"><a href="#changed-1" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Changed</span></h3><ul><li>CI runs formatting, Credo, Dialyzer, tests, and non-blocking benchmarks.</li></ul><h3 id="notes" class="section-heading"><a href="#notes" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Notes</span></h3><ul><li>Requires Rust toolchain for building the NIF.</li></ul>
 
 </div>
 
@@ -110,11 +110,11 @@ CanvasCraft
       <p>
 
           <span class="line">
-            <a href="https://hex.pm/packages/canvas_craft/0.1.0" class="footer-hex-package">Hex Package</a>
+            <a href="https://hex.pm/packages/canvas_craft/0.2.0" class="footer-hex-package">Hex Package</a>
 
-            <a href="https://preview.hex.pm/preview/canvas_craft/0.1.0">Hex Preview</a>
+            <a href="https://preview.hex.pm/preview/canvas_craft/0.2.0">Hex Preview</a>
 
-              (<a href="https://preview.hex.pm/preview/canvas_craft/0.1.0/show/CHANGELOG.md">current file</a>)
+              (<a href="https://preview.hex.pm/preview/canvas_craft/0.2.0/show/CHANGELOG.md">current file</a>)
 
           </span>
 

@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog and this project adheres to Semantic Versioning.
 
+## [0.2.0] - 2025-09-28
+### Added
+- Scene-level options in `render/2` (aa/background/font) and per-element `aa:` support across helpers.
+- New UI helpers: `linear_gradient_rect`, `radial_gradient_circle`, `chip`, `paragraph`, and real `text` with font loading.
+- Kitchensink example refactor: palette, balanced header, system meters with percentages, and split analytics into non-overlapping subplots (trend, scatter, OHLC).
+
+### Fixed
+- Anti-aliasing now works for circles (Rust NIF `fill_circle` uses MSAA samples); visuals are smoother.
+- Consistent AA pass-through in named-property helpers (grid/line_chart/candle_chart/etc.).
+
+### Changed
+- README updated with accurate run commands and Hex badge.
+
 ## [0.1.0] - 2025-09-28
 ### Added
 - Minimal, fully working Skia backend via Rustler NIF producing real WEBP binaries (in-memory, zero-FS path).

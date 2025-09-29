@@ -1,6 +1,6 @@
 # CanvasCraft
 
-![Elixir](https://img.shields.io/badge/Elixir-4B275F?style=flat&logo=elixir&logoColor=white)
+![Elixir](https://img.shields.io/badge/Elixir-4B275F?style=flat&logo=elixir&logoColor=white) [![Hex](https://img.shields.io/hexpm/v/canvas_craft)](https://hex.pm/packages/canvas_craft)
 
 In-memory 2D rendering with a Skia backend (Rustler NIF). 100% declarative Scene DSL for charts and UI-like scenes.
 
@@ -8,7 +8,7 @@ In-memory 2D rendering with a Skia backend (Rustler NIF). 100% declarative Scene
 Add to `mix.exs`:
 
 ```elixir
-{:canvas_craft, "~> 0.1.0"}
+{:canvas_craft, "~> 0.2.0"}
 ```
 
 This builds a small native library (Rust). You need a Rust toolchain (`rustup` recommended).
@@ -52,28 +52,26 @@ File.write!("circle.webp", webp)
 
 ## DSL essentials
 - Colors: RGBA tuples `{r,g,b,a}` with 0..255 components
-- Antialiasing: `aa 1 | 4 | 8` (can be set globally or per element)
+- Antialiasing: `aa 1 | 4 | 8` (can be set globally or per element, or scene-level via `render aa: 8`)
 - Coordinate system: pixels, origin at top-left
 - Named properties on all elements: `rect x:, y:, w:, h:, color:` etc.
 
 ## Examples
-- `examples/kitchensink` – 1080p dashboard using the DSL
+- `examples/kitchensink` – 1080p dashboard using the DSL (header + overview + system + analytics subplots)
 
-Run KitchenSink:
+Render KitchenSink (repo root):
 
 ```sh
-cd examples/kitchensink
-mix deps.get
-mix run -e 'KitchenSink.render("output.webp")'
-file output.webp # should report RIFF WebP
+mix run -e 'Code.compile_file("examples/kitchensink/lib/kitchensink.ex"); KitchenSink.render("kitchensink.webp", aa: 8)'
+file kitchensink.webp
 ```
 
-Alternative script form:
+Or from the example folder:
 
 ```sh
 cd examples/kitchensink
-mix deps.get
-mix run script.exs
+mix run -e 'Code.compile_file("lib/kitchensink.ex"); KitchenSink.render("output.webp", aa: 8)'
+file output.webp
 ```
 
 ## Tech details
@@ -87,7 +85,8 @@ mix run script.exs
 - Needs: Rust (`rustup toolchain install stable`), clang/LLVM on Linux
 
 ## Troubleshooting
-- NIF fails to load: ensure Rust toolchain is installed and on PATH
+- `{:error, :backend_missing}`: run from repo root using `mix` so Rustler loads the NIF. If needed: `mix clean && mix compile`.
+- NIF fails to load: ensure Rust toolchain is installed and on PATH.
 - Compile errors about clang: install build tools (`xcode-select --install` on macOS; `build-essential` on Ubuntu)
 
 ## Contributing

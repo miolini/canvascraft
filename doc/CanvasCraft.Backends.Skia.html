@@ -5,14 +5,14 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.38.4">
-    <meta name="project" content="canvas_craft v0.1.0">
+    <meta name="project" content="canvas_craft v0.2.0">
 
 
-    <title>CanvasCraft.Backends.Skia — canvas_craft v0.1.0</title>
+    <title>CanvasCraft.Backends.Skia — canvas_craft v0.2.0</title>
 
     <link rel="stylesheet" href="dist/html-elixir-RLZO5U2C.css" />
 
-    <script defer src="dist/sidebar_items-FE044EB5.js"></script>
+    <script defer src="dist/sidebar_items-915BE43E.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y223O6DN.js"></script>
 
@@ -37,7 +37,7 @@
 canvas_craft
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v0.1.0
+          v0.2.0
         </div>
       </div>
     </div>
@@ -76,11 +76,11 @@ canvas_craft
   <div class="heading-with-actions top-heading">
     <h1>
       <span translate="no">CanvasCraft.Backends.Skia</span> 
-      <small class="app-vsn" translate="no">(canvas_craft v0.1.0)</small>
+      <small class="app-vsn" translate="no">(canvas_craft v0.2.0)</small>
 
     </h1>
 
-      <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/backends/skia.ex#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
@@ -109,6 +109,14 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#draw_text/5" data-no-tooltip="" translate="no">draw_text(surface, x, y, text, arg)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#fill_circle/5" data-no-tooltip="" translate="no">fill_circle(surface, cx, cy, radius, arg)</a>
 
       </div>
@@ -125,7 +133,23 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#load_font/2" data-no-tooltip="" translate="no">load_font(surface, path)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#set_antialias/2" data-no-tooltip="" translate="no">set_antialias(surface, aa)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#set_font_size/2" data-no-tooltip="" translate="no">set_font_size(surface, size)</a>
 
       </div>
 
@@ -145,6 +169,28 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
     </h1>
 
     <div class="functions-list">
+<section class="detail" id="draw_text/5">
+
+  <div class="detail-header">
+    <a href="#draw_text/5" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">draw_text(surface, x, y, text, arg)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L266" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
 <section class="detail" id="fill_circle/5">
 
   <div class="detail-header">
@@ -155,7 +201,7 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
       <h1 class="signature" translate="no">fill_circle(surface, cx, cy, radius, arg)</h1>
 
 
-        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/backends/skia.ex#L234" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L241" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -177,7 +223,29 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
       <h1 class="signature" translate="no">fill_rect(surface, x, y, w, h, arg)</h1>
 
 
-        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/backends/skia.ex#L226" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L233" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="load_font/2">
+
+  <div class="detail-header">
+    <a href="#load_font/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">load_font(surface, path)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L250" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -199,7 +267,29 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
       <h1 class="signature" translate="no">set_antialias(surface, aa)</h1>
 
 
-        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/backends/skia.ex#L215" class="icon-action" rel="help" aria-label="View Source">
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L222" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+
+  </section>
+</section>
+<section class="detail" id="set_font_size/2">
+
+  <div class="detail-header">
+    <a href="#set_font_size/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_font_size(surface, size)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.2.0/lib/canvas_craft/backends/skia.ex#L258" class="icon-action" rel="help" aria-label="View Source">
           <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         </a>
 
@@ -219,9 +309,9 @@ Delegates to NIFs declared in <code class="inline">CanvasCraft.Native.Skia</code
       <p>
 
           <span class="line">
-            <a href="https://hex.pm/packages/canvas_craft/0.1.0" class="footer-hex-package">Hex Package</a>
+            <a href="https://hex.pm/packages/canvas_craft/0.2.0" class="footer-hex-package">Hex Package</a>
 
-            <a href="https://preview.hex.pm/preview/canvas_craft/0.1.0">Hex Preview</a>
+            <a href="https://preview.hex.pm/preview/canvas_craft/0.2.0">Hex Preview</a>
 
           </span>
 
