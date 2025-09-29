@@ -30,12 +30,6 @@ File.write!("out.webp", webp)
 File.write!("circle.webp", bin)
 ```
 
-zsh one-liner to render an example with Skia:
-
-```sh
-env CANVAS_CRAFT_ENABLE_NIF=1 mix run -e 'File.write!("/tmp/kitchen.webp", (KitchenSink.render("/tmp/kitchen.webp") && File.read!("/tmp/kitchen.webp")))'
-```
-
 ## Declarative DSL
 See `lib/canvas_craft/scene.ex` for the Scene DSL. The examples in `examples/kitchensink` showcase:
 - named properties (e.g., `rect x: 10, y: 10, w: 100, h: 40, color: {…}`)
@@ -46,12 +40,21 @@ See `lib/canvas_craft/scene.ex` for the Scene DSL. The examples in `examples/kit
 - `examples/earth_planet` – minimal scene
 - `examples/kitchensink` – 1080p dashboard using the DSL
 
-Run an example (Skia):
+Run KitchenSink (Skia backend):
 
 ```sh
 cd examples/kitchensink
+mix deps.get
 env CANVAS_CRAFT_ENABLE_NIF=1 mix run -e 'KitchenSink.render("kitchen_1080p.webp")'
 file kitchen_1080p.webp # should report RIFF WebP
+```
+
+Alternative (positional DSL script):
+
+```sh
+cd examples/kitchensink
+mix deps.get
+env CANVAS_CRAFT_ENABLE_NIF=1 mix run script.exs
 ```
 
 ## In-Memory Workflow
