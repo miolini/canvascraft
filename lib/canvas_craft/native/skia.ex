@@ -1,9 +1,7 @@
 defmodule CanvasCraft.Native.Skia do
   @moduledoc false
 
-  if System.get_env("CANVAS_CRAFT_ENABLE_NIF") == "1" or Mix.env() == :dev do
-    use Rustler, otp_app: :canvas_craft, crate: :canvas_craft_skia
-  end
+  use Rustler, otp_app: :canvas_craft, crate: :canvas_craft_skia
 
   def skia_hello, do: :erlang.nif_error(:nif_not_loaded)
 

@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="dist/html-elixir-RLZO5U2C.css" />
 
-    <script defer src="dist/sidebar_items-79EC67A8.js"></script>
+    <script defer src="dist/sidebar_items-FE044EB5.js"></script>
     <script defer src="docs_config.js"></script>
     <script defer src="dist/html-Y223O6DN.js"></script>
 
@@ -91,7 +91,7 @@ canvas_craft
     <section id="moduledoc">
 <p>CanvasCraft - 2D graphics drawing library facade.</p><p>This module delegates drawing operations to a pluggable backend.
 The canvas handle is represented as <code class="inline">{backend_module, backend_ref}</code>.</p><p>Examples:</p><ul><li>In-memory WEBP export (no temp files):
-  iex&gt; {:ok, handle} = CanvasCraft.create_canvas(16, 16, backend: CanvasCraft.Backends.Reference)
+  iex&gt; {:ok, handle} = CanvasCraft.create_canvas(16, 16)
   iex&gt; {:ok, bin} = CanvasCraft.export_webp(handle)
   iex&gt; is_binary(bin)
   true</li></ul><p>See <code class="inline">guides/examples/</code> for runnable scripts demonstrating gradients, filters, images, and in-memory export.</p>

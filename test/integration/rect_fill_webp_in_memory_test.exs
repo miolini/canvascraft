@@ -1,15 +1,16 @@
-defmodule CanvasCraft.RectFillWebPInMemoryTest do
+defmodule CanvasCraft.RectFillWebpInMemoryTest do
   use ExUnit.Case, async: true
 
-  alias CanvasCraft.Backends.Reference
+  alias CanvasCraft.Backends.Skia
   alias CanvasCraft.GoldenHelper
 
-  @golden Path.expand("../../priv/goldens/rect_16x16.webp", __DIR__)
+  @golden Path.expand("../../priv/goldens/rect_64x64.webp", __DIR__)
 
-  test "export_webp returns binary and matches golden via helper (no temp files)" do
-    {:ok, handle} = CanvasCraft.create_canvas(16, 16, backend: Reference)
-    assert {:ok, bin} = CanvasCraft.export_png(handle, format: :webp)
-    assert is_binary(bin)
-    assert :ok = GoldenHelper.compare_webp_binary(bin, @golden)
+  test "rect fill in-memory WEBP" do
+    {:ok, handle} = CanvasCraft.create_canvas(64, 64, backend: Skia)
+    :ok = CanvasCraft.fill_rect(handle, 8, 8, 48, 48, {0, 128, 255, 255})
+    {:ok, bin} = CanvasCraft.export_webp(handle)
+
+    assert :ok = GoldenHelper.compare_binary(bin, @golden)
   end
 end

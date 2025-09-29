@@ -7,5 +7,5 @@ Run:
 ```
 cd examples/kitchensink
 mix deps.get
-env CANVAS_CRAFT_ENABLE_NIF=1 mix run -e 'KitchenSink.render("kitchen.webp")'
+mix run -e 'KitchenSink.render("kitchen.webp")'
 ```

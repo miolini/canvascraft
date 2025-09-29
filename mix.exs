@@ -20,7 +20,12 @@ defmodule CanvasCraft.MixProject do
         dialyzer: :dev,
         docs: :dev
       ],
-      rustler_crates: rustler_crates(),
+      rustler_crates: [
+        canvas_craft_skia: [
+          path: "native/canvas_craft_skia",
+          mode: :release
+        ]
+      ],
       deps: deps(),
       package: package(),
       source_url: @source_url,
@@ -38,19 +43,6 @@ defmodule CanvasCraft.MixProject do
     [
       extra_applications: [:logger]
     ]
-  end
-
-  defp rustler_crates do
-    if System.get_env("CANVAS_CRAFT_ENABLE_NIF") in ["1", "true", "yes"] do
-      [
-        canvas_craft_skia: [
-          path: "native/canvas_craft_skia",
-          mode: :release
-        ]
-      ]
-    else
-      []
-    end
   end
 
   defp package do

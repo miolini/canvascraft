@@ -1,19 +1,19 @@
 Mix.ensure_application!(:benchee)
 
-alias CanvasCraft.Backends.Reference
+alias CanvasCraft.Backends.Skia
 
 threshold = System.get_env("BENCH_REGRESSION_THRESHOLD", "1.10") |> String.to_float()
 baseline_path = System.get_env("BENCH_BASELINE", "bench/ci_baseline.json")
 
 # Define a small, stable suite for CI
 suite = Benchee.run(%{
-  "ref_fill_rect" => fn ->
-    {:ok, surf} = Reference.new_surface(64, 64, [])
-    :ok = Reference.fill_rect(surf, 0, 0, 64, 64)
+  "skia_fill_rect" => fn ->
+    {:ok, surf} = Skia.new_surface(64, 64, [])
+    :ok = Skia.fill_rect(surf, 0, 0, 64, 64, {255,255,255,255})
   end,
-  "ref_export_webp" => fn ->
-    {:ok, surf} = Reference.new_surface(64, 64, [])
-    {:ok, _bin} = Reference.export_webp(surf, [])
+  "skia_export_webp" => fn ->
+    {:ok, surf} = Skia.new_surface(64, 64, [])
+    {:ok, _bin} = Skia.export_webp(surf, [])
   end
 }, time: 0.3, warmup: 0.1, print: [fast_warning: false])
 

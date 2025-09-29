@@ -1,12 +1,11 @@
 Mix.ensure_application!(:benchee)
 
-alias CanvasCraft.Backends.Reference
+alias CanvasCraft.Backends.Skia
 
 Benchee.run(%{
   "stroke+fill" => fn ->
-    {:ok, surf} = Reference.new_surface(32, 32, [])
-    :ok = Reference.fill_rect(surf, 0, 0, 32, 32)
-    :ok = Reference.set_stroke_width(surf, 2)
-    :ok = Reference.set_stroke_color(surf, 0, 0, 0, 255)
+    {:ok, surf} = Skia.new_surface(32, 32, [])
+    :ok = Skia.fill_rect(surf, 0, 0, 32, 32, {255,255,255,255})
+    :ok = Skia.draw_oval(surf, 16, 16, 10, 6)
   end
 }, time: 0.5, warmup: 0.2)

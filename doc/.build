@@ -1,5 +1,4 @@
 404.html
-CanvasCraft.Backends.Reference.html
 CanvasCraft.Backends.Skia.html
 CanvasCraft.Capabilities.html
 CanvasCraft.Font.html
@@ -15,8 +14,8 @@ dist/lato-latin-700-normal-2XVSBPG4.woff2
 dist/lato-latin-ext-400-normal-N27NCBWW.woff2
 dist/lato-latin-ext-700-normal-Q2L5DVMW.woff2
 dist/remixicon-QPNJX265.woff2
-dist/search_data-3562079B.js
-dist/sidebar_items-79EC67A8.js
+dist/search_data-E69AD41B.js
+dist/sidebar_items-FE044EB5.js
 index.html
 readme.html
 search.html

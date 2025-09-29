@@ -2,12 +2,12 @@ defmodule CanvasCraft do
   @moduledoc """
   CanvasCraft - 2D graphics drawing library facade.
 
-  This module delegates drawing operations to a pluggable backend.
+  This module delegates drawing operations to the Skia backend by default.
   The canvas handle is represented as `{backend_module, backend_ref}`.
 
   Examples:
   - In-memory WEBP export (no temp files):
-      iex> {:ok, handle} = CanvasCraft.create_canvas(16, 16, backend: CanvasCraft.Backends.Reference)
+      iex> {:ok, handle} = CanvasCraft.create_canvas(16, 16)
       iex> {:ok, bin} = CanvasCraft.export_webp(handle)
       iex> is_binary(bin)
       true

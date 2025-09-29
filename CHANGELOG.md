@@ -20,5 +20,4 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 - CI runs formatting, Credo, Dialyzer, tests, and non-blocking benchmarks.
 
 ### Notes
-- Enable the Skia NIF by setting environment variable `CANVAS_CRAFT_ENABLE_NIF=1` when running examples or your code.
 - Requires Rust toolchain for building the NIF.
