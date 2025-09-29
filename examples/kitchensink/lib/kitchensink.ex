@@ -1,9 +1,10 @@
 defmodule KitchenSink do
   @moduledoc """
-  KitchenSink: showcase of CanvasCraft declarative DSL with shapes, panels, charts, gradients and UI chips.
+  Kitchensink demo with a cleaner, card-based layout and balanced visuals.
   """
   alias CanvasCraft.Scene, as: Scene
   require Scene
+  import CanvasCraft.Scene
 
   @width 1920
   @height 1080
@@ -11,43 +12,76 @@ defmodule KitchenSink do
   @spec render(Path.t()) :: :ok | {:error, term()}
   def render(path) do
     result = Scene.render width: @width, height: @height, path: path do
-      Scene.aa 8
-      Scene.clear {30,34,40,255}
+      aa 4
+      clear {28,32,38,255}
 
-      # backdrop panel with subtle vertical gradient header
-      Scene.panel x: 60, y: 60, w: @width-120, h: @height-120, color: {42,46,54,255}
-      Scene.linear_gradient_rect x: 60, y: 60, w: @width-120, h: 64, vertical: true, from: {52,56,66,255}, to: {42,46,54,255}
+      # Main container
+      panel x: 40, y: 40, w: @width-80, h: @height-80, color: {44,48,58,255}
 
-      # header chips and labels
-      Scene.chip x: 84, y: 76, w: 160, h: 24, dot: {120,195,255,255}
-      Scene.chip x: 264, y: 76, w: 140, h: 24, dot: {90,205,140,255}
-      Scene.label x: 430, y: 80, w: 160, h: 20
-      Scene.label x: 600, y: 80, w: 120, h: 20
+      # Header
+      linear_gradient_rect x: 40, y: 40, w: @width-80, h: 64, vertical: true, from: {54,58,68,255}, to: {44,48,58,255}
+      text x: 72, y: 52, text: "CANVASCRAFT DASHBOARD", scale: 3, spacing: 1, color: {230,236,246,255}
+      # Status chips aligned right
+      chip_y = 56
+      chip x: @width-80-360, y: chip_y, w: 116, h: 22, dot: {120,195,255,255}
+      chip x: @width-80-232, y: chip_y, w: 116, h: 22, dot: {90,205,140,255}
+      chip x: @width-80-104, y: chip_y, w: 96,  h: 22, dot: {240,96,96,255}
 
-      # left donut with radial gradient fill
-      Scene.radial_gradient_circle cx: 300, cy: 260, r: 110, inner: {35,132,252,255}, outer: {26,104,214,255}
-      Scene.circle cx: 300, cy: 260, r: 80,  color: {26,104,214,255}
-      Scene.donut_segment cx: 300, cy: 260, radius: 140, thickness: 22, start_deg: -40, sweep_deg: 220, color: {80,170,255,255}
-      Scene.circle cx: 300, cy: 140, r: 18, color: {225,234,246,255}
-      Scene.circle cx: 300, cy: 380, r: 18, color: {225,234,246,255}
+      # Left column card: Overview
+      left_x = 80
+      left_y = 140
+      left_w = 560
+      left_h = 540
+      panel x: left_x, y: left_y, w: left_w, h: left_h, color: {48,52,62,255}
+      heading x: left_x+20, y: left_y+20, w: 240, h: 18
+      text x: left_x+28, y: left_y+22, text: "OVERVIEW", scale: 2, color: {135,205,240,255}
+      paragraph x: left_x+20, y: left_y+56, w: left_w-40, h: 14, lines: 3
 
-      # text rows
-      Scene.text_bar x: 140, y: 400, w: 320, h: 22, color: {58,63,72,255}
-      Scene.text_bar x: 140, y: 434, w: 260, h: 22, color: {58,63,72,255}
-      Scene.text_bar x: 140, y: 468, w: 300, h: 22, color: {58,63,72,255}
-
-      # tiny histogram
-      for {i, h} <- Enum.with_index([320,480,260,520,400,300,460,380]) do
-        Scene.rect x: 600 + i*70, y: 900 - h, w: 40, h: h, color: {90,205,140,255}, aa: 4
-        Scene.rect x: 600 + i*70 + 44, y: 900 - div(h,2), w: 22, h: div(h,2), color: {60,150,255,255}, aa: 4
+      # Donut visualization
+      cx = left_x + div(left_w, 2)
+      cy = left_y + 250
+      radial_gradient_circle cx: cx, cy: cy, r: 110, inner: {40,140,255,255}, outer: {26,104,214,255}
+      circle cx: cx, cy: cy, r: 82, color: {26,104,214,255}
+      donut_segment cx: cx, cy: cy, radius: 142, thickness: 22, start_deg: -30, sweep_deg: 220, color: {80,170,255,230}
+      for ang <- -150..30//24 do
+        rad = :math.pi() * ang / 180.0
+        tx = cx + :math.cos(rad) * 150
+        ty = cy + :math.sin(rad) * 150
+        circle cx: tx, cy: ty, r: 4, color: {120,195,255,160}
       end
 
-      # right card with grid and charts
-      Scene.panel x: 1160, y: 200, w: 700, h: 560, color: {48,52,62,255}
-      Scene.grid x: 1180, y: 220, w: 660, h: 520, rows: 8, cols: 10, color: {58,63,72,255}
-      Scene.line_chart x: 1180+30, y: 220+30, w: 660-60, h: 520-60,
+      # System card (progress)
+      sys_x = 80
+      sys_y = left_y + left_h + 24
+      sys_w = 760
+      sys_h = 140
+      panel x: sys_x, y: sys_y, w: sys_w, h: sys_h, color: {48,52,62,255}
+      text x: sys_x+20, y: sys_y+18, text: "SYSTEM", scale: 2, color: {200,210,224,255}
+      text x: sys_x+20, y: sys_y+54, text: "CPU", scale: 2, color: {200,210,224,255}
+      progress_bar x: sys_x+90, y: sys_y+50, w: sys_w-150, h: 18, pct: 0.68, aa: 8
+      text x: sys_x+20, y: sys_y+92, text: "MEM", scale: 2, color: {200,210,224,255}
+      progress_bar x: sys_x+90, y: sys_y+88, w: sys_w-150, h: 18, pct: 0.42, aa: 8
+
+      # Right column: Analytics card
+      right_x = left_x + left_w + 40
+      right_y = 140
+      right_w = @width - 80 - right_x
+      right_h = @height - 80 - right_y - 20
+      panel x: right_x, y: right_y, w: right_w, h: right_h, color: {50,54,64,255}
+      heading x: right_x+24, y: right_y+20, w: 260, h: 18
+      text x: right_x+32, y: right_y+22, text: "ANALYTICS", scale: 2, color: {230,236,246,255}
+
+      plot_x = right_x + 32
+      plot_y = right_y + 76
+      plot_w = right_w - 64
+      plot_h = right_h - 120
+      grid x: plot_x, y: plot_y, w: plot_w, h: plot_h, rows: 8, cols: 10, color: {64,70,80,255}
+
+      # Line, candles, and scatter
+      line_chart x: plot_x+40, y: plot_y+28, w: plot_w-80, h: 180,
                  points: Enum.map(0..20, fn i -> {i/20, 0.5 + :math.sin(i/3)/3} end), color: {120,195,255,255}
-      Scene.candle_chart x: 1180+60, y: 220+60, w: 660-120, h: 520-120,
+
+      candle_chart x: plot_x+60, y: plot_y+240, w: plot_w-120, h: 180,
                    candles: Enum.map(0..18, fn _ ->
                      o = 0.45 + :rand.uniform() * 0.1
                      c = 0.45 + :rand.uniform() * 0.1
@@ -56,11 +90,13 @@ defmodule KitchenSink do
                      {o,h,l,c}
                    end), up_color: {90,205,140,255}, down_color: {240,96,96,255}
 
-      Scene.scatter x: 1320, y: 260, w: 480, h: 420, count: 180, seed: 42
+      chip x: plot_x+40, y: plot_y+440, w: 120, h: 22, dot: {120,195,255,255}
+      chip x: plot_x+180, y: plot_y+440, w: 120, h: 22, dot: {90,205,140,255}
 
-      # progress
-      Scene.progress_bar x: 140, y: 760, w: 520, h: 20, pct: 0.75, aa: 8
-      Scene.progress_bar x: 140, y: 800, w: 520, h: 20, pct: 0.45, aa: 8
+      scatter x: plot_x+120, y: plot_y+90, w: plot_w-240, h: plot_h-200, count: 120, seed: 42
+
+      # Footer
+      text x: 56, y: @height-56, text: "Rendered with CanvasCraft (Skia)", scale: 2, color: {120,130,144,255}
     end
 
     case result do
