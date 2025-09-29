@@ -57,7 +57,7 @@ defmodule CanvasCraft.MixProject do
         "lib",
         "native/canvas_craft_skia/src",
         "native/canvas_craft_skia/Cargo.toml",
-        "priv/fonts/DejaVuSans.ttf",
+        "priv/fonts",
         "mix.exs",
         "README.md",
         "CHANGELOG.md",
