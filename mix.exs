@@ -1,30 +1,36 @@
 defmodule CanvasCraft.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+  @source_url "https://github.com/miolini/canvascraft"
+
   def project do
     [
       app: :canvas_craft,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
+      description: "In-memory 2D rendering with a Skia (Rustler) backend and declarative DSL",
       dialyzer: [
         plt_add_apps: [:mix],
         ignore_warnings: "dialyzer.ignore"
       ],
       preferred_cli_env: [
         credo: :test,
-        dialyzer: :dev
+        dialyzer: :dev,
+        docs: :dev
       ],
-      rustler_crates: [
-        canvas_craft_skia: [
-          path: "native/canvas_craft_skia",
-          mode: :release
-        ]
-      ],
+      rustler_crates: rustler_crates(),
       deps: deps(),
       package: package(),
-      source_url: "https://github.com/miolini/canvascraft",
-      homepage_url: "https://github.com/miolini/canvascraft"
+      source_url: @source_url,
+      homepage_url: @source_url,
+      docs: [
+        main: "readme",
+        extras: ["README.md", "CHANGELOG.md"],
+        source_url: @source_url,
+        source_ref: "v#{@version}"
+      ]
     ]
   end
 
@@ -34,13 +40,37 @@ defmodule CanvasCraft.MixProject do
     ]
   end
 
+  defp rustler_crates do
+    if System.get_env("CANVAS_CRAFT_ENABLE_NIF") in ["1", "true", "yes"] do
+      [
+        canvas_craft_skia: [
+          path: "native/canvas_craft_skia",
+          mode: :release
+        ]
+      ]
+    else
+      []
+    end
+  end
+
   defp package do
     [
+      maintainers: ["Artem Andreenko"],
       licenses: ["MIT"],
       links: %{
-        "GitHub" => "https://github.com/miolini/canvascraft",
-        "Changelog" => "https://github.com/miolini/canvascraft/blob/main/CHANGELOG.md"
-      }
+        "GitHub" => @source_url,
+        "Changelog" => @source_url <> "/blob/main/CHANGELOG.md"
+      },
+      files: [
+        "lib",
+        "native/canvas_craft_skia/src",
+        "native/canvas_craft_skia/Cargo.toml",
+        "priv/fonts/DejaVuSans.ttf",
+        "mix.exs",
+        "README.md",
+        "CHANGELOG.md",
+        "LICENSE"
+      ]
     ]
   end
 
