@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.38.4">
+    <meta name="project" content="canvas_craft v0.1.0">
+
+
+    <title>CanvasCraft.Renderer — canvas_craft v0.1.0</title>
+
+    <link rel="stylesheet" href="dist/html-elixir-RLZO5U2C.css" />
+
+    <script defer src="dist/sidebar_items-79EC67A8.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-Y223O6DN.js"></script>
+
+  </head>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="https://github.com/miolini/canvascraft" class="sidebar-projectName" translate="no">
+canvas_craft
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.0
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras=""></ul>
+  </div>
+</nav>
+
+<output role="status" id="toast"></output>
+
+<main class="content page-behaviour" id="main" data-type="modules">
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of canvas_craft</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search" tabindex="-1">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <div class="heading-with-actions top-heading">
+    <h1>
+      <span translate="no">CanvasCraft.Renderer</span> <small>behaviour</small>
+      <small class="app-vsn" translate="no">(canvas_craft v0.1.0)</small>
+
+    </h1>
+
+      <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+  </div>
+
+
+    <section id="moduledoc">
+<p>Behaviour defining the backend-agnostic rendering contract for CanvasCraft.</p><h2 id="module-example" class="section-heading"><a href="#module-example" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Example</span></h2><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyBackend</span><span class="w"> </span><span class="k" data-group-id="7943540242-1">do</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="na">@behaviour</span><span class="w"> </span><span class="nc">CanvasCraft.Renderer</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="nf">new_surface</span><span class="p" data-group-id="7943540242-2">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="c">_opts</span><span class="p" data-group-id="7943540242-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7943540242-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7943540242-4">{</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p" data-group-id="7943540242-4">}</span><span class="p" data-group-id="7943540242-3">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="nf">export_webp</span><span class="p" data-group-id="7943540242-5">(</span><span class="p" data-group-id="7943540242-6">{</span><span class="c">_w</span><span class="p">,</span><span class="w"> </span><span class="c">_h</span><span class="p" data-group-id="7943540242-6">}</span><span class="p">,</span><span class="w"> </span><span class="c">_opts</span><span class="p" data-group-id="7943540242-5">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7943540242-7">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7943540242-8">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p" data-group-id="7943540242-8">&gt;&gt;</span><span class="p" data-group-id="7943540242-7">}</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="nf">capabilities</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="nc">MapSet</span><span class="o">.</span><span class="n">new</span><span class="p" data-group-id="7943540242-9">(</span><span class="p" data-group-id="7943540242-10">[</span><span class="ss">:images</span><span class="p" data-group-id="7943540242-10">]</span><span class="p" data-group-id="7943540242-9">)</span><span class="w">
+</span><span class="gp unselectable">...&gt; </span><span class="k" data-group-id="7943540242-1">end</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7943540242-11">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">surf</span><span class="p" data-group-id="7943540242-11">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBackend</span><span class="o">.</span><span class="n">new_surface</span><span class="p" data-group-id="7943540242-12">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7943540242-13">[</span><span class="p" data-group-id="7943540242-13">]</span><span class="p" data-group-id="7943540242-12">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7943540242-14">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p" data-group-id="7943540242-14">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">MyBackend</span><span class="o">.</span><span class="n">export_webp</span><span class="p" data-group-id="7943540242-15">(</span><span class="n">surf</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7943540242-16">[</span><span class="p" data-group-id="7943540242-16">]</span><span class="p" data-group-id="7943540242-15">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">is_binary</span><span class="p" data-group-id="7943540242-17">(</span><span class="n">bin</span><span class="p" data-group-id="7943540242-17">)</span><span class="w">
+</span><span class="no">true</span></code></pre><p>Backends implement these callbacks; the facade delegates to them.</p><p>This minimal contract supports:</p><ul><li>Creating a surface of given width/height</li><li>Exporting to PNG/WEBP encodings</li><li>Exporting the raw RGBA buffer (stride-aligned)</li></ul><p>Expanded primitive families and capability discovery:</p><ul><li>Images (load/draw, sampling)</li><li>Gradients &amp; shaders</li><li>Color/image filters</li><li>Blending (blend modes) and save layers</li><li>Clipping (rect/path)</li><li>Shapes (round rect, oval/circle, arc)</li><li>Path effects (e.g., dash)</li></ul>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:feature/0" data-no-tooltip="" translate="no">feature()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Feature atoms for capability discovery</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:height/0" data-no-tooltip="" translate="no">height()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Canvas height in pixels</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:raw_export/0" data-no-tooltip="" translate="no">raw_export()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Raw export tuple: {width, height, stride, rgba_binary}</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:stride/0" data-no-tooltip="" translate="no">stride()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Bytes per row in the raw RGBA buffer (&gt;= width*4)</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:surface/0" data-no-tooltip="" translate="no">surface()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Opaque backend surface handle</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:width/0" data-no-tooltip="" translate="no">width()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Canvas width in pixels</p></div>
+
+    </div>
+
+</div>
+<div class="summary-callbacks summary">
+  <h2>
+    <a href="#callbacks">Callbacks</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:capabilities/0" data-no-tooltip="" translate="no">capabilities()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Capability discovery: return a set of supported features.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:clip_rect/6" data-no-tooltip="" translate="no">clip_rect(surface, x, y, w, h, mode)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:draw_arc/6" data-no-tooltip="" translate="no">draw_arc(surface, cx, cy, r, start_deg, sweep_deg)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:draw_image/5" data-no-tooltip="" translate="no">draw_image(surface, image_ref, x, y, opts)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:draw_oval/5" data-no-tooltip="" translate="no">draw_oval(surface, cx, cy, rx, ry)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:draw_round_rect/7" data-no-tooltip="" translate="no">draw_round_rect(surface, x, y, w, h, rx, ry)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:export_png/2" data-no-tooltip="" translate="no">export_png(surface, opts)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the current surface as a PNG (or PNG-like) binary.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:export_raw/1" data-no-tooltip="" translate="no">export_raw(surface)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the raw RGBA buffer from the surface.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:export_webp/2" data-no-tooltip="" translate="no">export_webp(surface, opts)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the current surface as a WEBP (or WEBP-like) binary.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:load_image_from_binary/2" data-no-tooltip="" translate="no">load_image_from_binary(surface, data)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:load_image_from_path/2" data-no-tooltip="" translate="no">load_image_from_path(surface, path)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:new_surface/3" data-no-tooltip="" translate="no">new_surface(width, height, opts)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Create a new drawing surface.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:save_layer/2" data-no-tooltip="" translate="no">save_layer(surface, opts)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_blend_mode/2" data-no-tooltip="" translate="no">set_blend_mode(surface, mode)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_color_filter/2" data-no-tooltip="" translate="no">set_color_filter(surface, filter)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_image_filter/2" data-no-tooltip="" translate="no">set_image_filter(surface, filter)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_linear_gradient/6" data-no-tooltip="" translate="no">set_linear_gradient(surface, x0, y0, x1, y1, stops)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_path_effect/2" data-no-tooltip="" translate="no">set_path_effect(surface, effect)</a>
+
+      </div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#c:set_radial_gradient/5" data-no-tooltip="" translate="no">set_radial_gradient(surface, cx, cy, r, stops)</a>
+
+      </div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+
+    <div class="types-list">
+<section class="detail" id="t:feature/0">
+
+  <div class="detail-header">
+    <a href="#t:feature/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">feature()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L51" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> feature() :: :images | :gradients | :filters | :blending | :clipping | :effects</pre>
+
+      </div>
+
+<p>Feature atoms for capability discovery</p>
+  </section>
+</section>
+<section class="detail" id="t:height/0">
+
+  <div class="detail-header">
+    <a href="#t:height/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">height()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L42" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> height() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>()</pre>
+
+      </div>
+
+<p>Canvas height in pixels</p>
+  </section>
+</section>
+<section class="detail" id="t:raw_export/0">
+
+  <div class="detail-header">
+    <a href="#t:raw_export/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">raw_export()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L48" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> raw_export() :: {<a href="#t:width/0">width</a>(), <a href="#t:height/0">height</a>(), <a href="#t:stride/0">stride</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}</pre>
+
+      </div>
+
+<p>Raw export tuple: {width, height, stride, rgba_binary}</p>
+  </section>
+</section>
+<section class="detail" id="t:stride/0">
+
+  <div class="detail-header">
+    <a href="#t:stride/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">stride()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L45" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> stride() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>()</pre>
+
+      </div>
+
+<p>Bytes per row in the raw RGBA buffer (&gt;= width*4)</p>
+  </section>
+</section>
+<section class="detail" id="t:surface/0">
+
+  <div class="detail-header">
+    <a href="#t:surface/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">surface()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L36" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> surface() :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()</pre>
+
+      </div>
+
+<p>Opaque backend surface handle</p>
+  </section>
+</section>
+<section class="detail" id="t:width/0">
+
+  <div class="detail-header">
+    <a href="#t:width/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">width()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L39" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> width() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>()</pre>
+
+      </div>
+
+<p>Canvas width in pixels</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="callbacks" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#callbacks">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Callbacks</span>
+    </h1>
+
+    <div class="callbacks-list">
+<section class="detail" id="c:capabilities/0">
+
+  <div class="detail-header">
+    <a href="#c:capabilities/0" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">capabilities()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L62" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> capabilities() :: <a href="https://hexdocs.pm/elixir/MapSet.html#t:t/1">MapSet.t</a>(<a href="#t:feature/0">feature</a>())</pre>
+
+      </div>
+
+<p>Capability discovery: return a set of supported features.</p>
+  </section>
+</section>
+<section class="detail" id="c:clip_rect/6">
+
+  <div class="detail-header">
+    <a href="#c:clip_rect/6" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">clip_rect(surface, x, y, w, h, mode)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L112" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> clip_rect(
+  <a href="#t:surface/0">surface</a>(),
+  x :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  y :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  w :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  h :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  mode :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()
+) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:draw_arc/6">
+
+  <div class="detail-header">
+    <a href="#c:draw_arc/6" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">draw_arc(surface, cx, cy, r, start_deg, sweep_deg)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L117" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> draw_arc(
+  <a href="#t:surface/0">surface</a>(),
+  cx :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  cy :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  r :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  start_deg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  sweep_deg :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()
+) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:draw_image/5">
+
+  <div class="detail-header">
+    <a href="#c:draw_image/5" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">draw_image(surface, image_ref, x, y, opts)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L97" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> draw_image(
+  <a href="#t:surface/0">surface</a>(),
+  image_ref :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(),
+  x :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  y :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()
+) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:draw_oval/5">
+
+  <div class="detail-header">
+    <a href="#c:draw_oval/5" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">draw_oval(surface, cx, cy, rx, ry)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L116" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> draw_oval(
+  <a href="#t:surface/0">surface</a>(),
+  cx :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  cy :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  rx :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  ry :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()
+) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:draw_round_rect/7">
+
+  <div class="detail-header">
+    <a href="#c:draw_round_rect/7" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">draw_round_rect(surface, x, y, w, h, rx, ry)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L115" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> draw_round_rect(
+  <a href="#t:surface/0">surface</a>(),
+  x :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  y :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  w :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  h :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  rx :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  ry :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()
+) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:export_png/2">
+
+  <div class="detail-header">
+    <a href="#c:export_png/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_png(surface, opts)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L76" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> export_png(<a href="#t:surface/0">surface</a>(), opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the current surface as a PNG (or PNG-like) binary.</p>
+  </section>
+</section>
+<section class="detail" id="c:export_raw/1">
+
+  <div class="detail-header">
+    <a href="#c:export_raw/1" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_raw(surface)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L89" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> export_raw(<a href="#t:surface/0">surface</a>()) :: {:ok, <a href="#t:raw_export/0">raw_export</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the raw RGBA buffer from the surface.</p><p>Returns {width, height, stride, rgba_binary} where rgba_binary is
+8-bit per channel, premultiplied or straight depending on backend.</p>
+  </section>
+</section>
+<section class="detail" id="c:export_webp/2">
+
+  <div class="detail-header">
+    <a href="#c:export_webp/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_webp(surface, opts)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L81" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> export_webp(<a href="#t:surface/0">surface</a>(), opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the current surface as a WEBP (or WEBP-like) binary.</p>
+  </section>
+</section>
+<section class="detail" id="c:load_image_from_binary/2">
+
+  <div class="detail-header">
+    <a href="#c:load_image_from_binary/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">load_image_from_binary(surface, data)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L96" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> load_image_from_binary(<a href="#t:surface/0">surface</a>(), data :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:load_image_from_path/2">
+
+  <div class="detail-header">
+    <a href="#c:load_image_from_path/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">load_image_from_path(surface, path)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L95" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> load_image_from_path(<a href="#t:surface/0">surface</a>(), path :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:new_surface/3">
+
+  <div class="detail-header">
+    <a href="#c:new_surface/3" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">new_surface(width, height, opts)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L70" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> new_surface(width :: <a href="#t:width/0">width</a>(), height :: <a href="#t:height/0">height</a>(), opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  {:ok, <a href="#t:surface/0">surface</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Create a new drawing surface.</p><p>Expected to allocate any necessary backend resources to draw into a
+width×height canvas. Options are backend-specific.</p>
+  </section>
+</section>
+<section class="detail" id="c:save_layer/2">
+
+  <div class="detail-header">
+    <a href="#c:save_layer/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">save_layer(surface, opts)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L109" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> save_layer(<a href="#t:surface/0">surface</a>(), opts :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_blend_mode/2">
+
+  <div class="detail-header">
+    <a href="#c:set_blend_mode/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_blend_mode(surface, mode)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L108" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_blend_mode(<a href="#t:surface/0">surface</a>(), mode :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_color_filter/2">
+
+  <div class="detail-header">
+    <a href="#c:set_color_filter/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_color_filter(surface, filter)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L104" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_color_filter(<a href="#t:surface/0">surface</a>(), filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_image_filter/2">
+
+  <div class="detail-header">
+    <a href="#c:set_image_filter/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_image_filter(surface, filter)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L105" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_image_filter(<a href="#t:surface/0">surface</a>(), filter :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_linear_gradient/6">
+
+  <div class="detail-header">
+    <a href="#c:set_linear_gradient/6" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_linear_gradient(surface, x0, y0, x1, y1, stops)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L100" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_linear_gradient(
+  <a href="#t:surface/0">surface</a>(),
+  x0 :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  y0 :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  x1 :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  y1 :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  stops :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()
+) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_path_effect/2">
+
+  <div class="detail-header">
+    <a href="#c:set_path_effect/2" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_path_effect(surface, effect)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L120" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_path_effect(<a href="#t:surface/0">surface</a>(), effect :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="c:set_radial_gradient/5">
+
+  <div class="detail-header">
+    <a href="#c:set_radial_gradient/5" class="detail-link" data-no-tooltip="" aria-label="Link to this callback">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_radial_gradient(surface, cx, cy, r, stops)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft/renderer.ex#L101" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@callback</span> set_radial_gradient(
+  <a href="#t:surface/0">surface</a>(),
+  cx :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  cy :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  r :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  stops :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()
+) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+      <p>
+
+          <span class="line">
+            <a href="https://hex.pm/packages/canvas_craft/0.1.0" class="footer-hex-package">Hex Package</a>
+
+            <a href="https://preview.hex.pm/preview/canvas_craft/0.1.0">Hex Preview</a>
+
+          </span>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="canvas_craft.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.38.4) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>

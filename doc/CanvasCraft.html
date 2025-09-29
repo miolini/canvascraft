@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.38.4">
+    <meta name="project" content="canvas_craft v0.1.0">
+
+
+    <title>CanvasCraft — canvas_craft v0.1.0</title>
+
+    <link rel="stylesheet" href="dist/html-elixir-RLZO5U2C.css" />
+
+    <script defer src="dist/sidebar_items-79EC67A8.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-Y223O6DN.js"></script>
+
+  </head>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+      <div>
+        <a href="https://github.com/miolini/canvascraft" class="sidebar-projectName" translate="no">
+canvas_craft
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v0.1.0
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras=""></ul>
+  </div>
+</nav>
+
+<output role="status" id="toast"></output>
+
+<main class="content page-module" id="main" data-type="modules">
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of canvas_craft</span>
+            <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </label>
+          <button type="submit" class="search-button" aria-label="Submit Search" tabindex="-1">
+            <i class="ri-search-2-line ri-lg" aria-hidden="true"></i>
+          </button>
+          <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+            <i class="ri-close-line ri-lg" title="Cancel search"></i>
+          </button>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <div class="heading-with-actions top-heading">
+    <h1>
+      <span translate="no">CanvasCraft</span> 
+      <small class="app-vsn" translate="no">(canvas_craft v0.1.0)</small>
+
+    </h1>
+
+      <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L1" title="View Source" class="icon-action" rel="help">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+  </div>
+
+
+    <section id="moduledoc">
+<p>CanvasCraft - 2D graphics drawing library facade.</p><p>This module delegates drawing operations to a pluggable backend.
+The canvas handle is represented as <code class="inline">{backend_module, backend_ref}</code>.</p><p>Examples:</p><ul><li>In-memory WEBP export (no temp files):
+  iex&gt; {:ok, handle} = CanvasCraft.create_canvas(16, 16, backend: CanvasCraft.Backends.Reference)
+  iex&gt; {:ok, bin} = CanvasCraft.export_webp(handle)
+  iex&gt; is_binary(bin)
+  true</li></ul><p>See <code class="inline">guides/examples/</code> for runnable scripts demonstrating gradients, filters, images, and in-memory export.</p>
+    </section>
+
+</div>
+
+  <section id="summary" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#summary">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Summary</span>
+    </h1>
+<div class="summary-types summary">
+  <h2>
+    <a href="#types">Types</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#t:canvas_handle/0" data-no-tooltip="" translate="no">canvas_handle()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Backend-qualified canvas handle</p></div>
+
+    </div>
+
+</div>
+<div class="summary-functions summary">
+  <h2>
+    <a href="#functions">Functions</a>
+  </h2>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#capabilities/1" data-no-tooltip="" translate="no">capabilities(backend)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Return capabilities supported by the selected backend</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#clear/2" data-no-tooltip="" translate="no">clear(arg, rgba)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Clear the canvas to a given RGBA color (tuple {r,g,b,a}, 0..255).
+No-op for backends that don't support it yet.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#create_canvas/3" data-no-tooltip="" translate="no">create_canvas(width, height, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Create a new canvas using the selected backend.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#export_png/2" data-no-tooltip="" translate="no">export_png(arg, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the canvas using backend. Defaults to PNG; if opts[:format] == :webp
+and the backend implements export_webp/2, that path is used.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#export_png_to_file/3" data-no-tooltip="" translate="no">export_png_to_file(handle, path, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export PNG and write to file path (helper).</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#export_raw/1" data-no-tooltip="" translate="no">export_raw(arg)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the raw RGBA buffer from the backend, if supported.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#export_webp/2" data-no-tooltip="" translate="no">export_webp(arg, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export the canvas as WEBP binary using backend, no filesystem involved.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#export_webp_to_file/3" data-no-tooltip="" translate="no">export_webp_to_file(handle, path, opts \\ [])</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Export WEBP and write to file path (helper).</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#fill_circle/5" data-no-tooltip="" translate="no">fill_circle(arg, cx, cy, radius, rgba)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Fill a circle with a color.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#fill_rect/5" data-no-tooltip="" translate="no">fill_rect(handle, x, y, w, h)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Fill an axis-aligned rectangle.
+No-op for backends that don't support it yet; implemented later.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#fill_rect/6" data-no-tooltip="" translate="no">fill_rect(arg, x, y, w, h, rgba)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Fill an axis-aligned rectangle with a color.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#hello/0" data-no-tooltip="" translate="no">hello()</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Return a simple atom for smoke tests.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#set_antialias/2" data-no-tooltip="" translate="no">set_antialias(arg, aa)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Enable/disable antialiasing or set sample count (1,4,8).</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#supports?/2" data-no-tooltip="" translate="no">supports?(backend, feature)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Return true if backend supports the given feature</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
+        <a href="#write_binary/2" data-no-tooltip="" translate="no">write_binary(bin, path)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>Write a binary returned from export_* to a file path (thin helper).</p></div>
+
+    </div>
+
+</div>
+
+  </section>
+
+
+  <section id="types" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#types">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Types</span>
+    </h1>
+
+    <div class="types-list">
+<section class="detail" id="t:canvas_handle/0">
+
+  <div class="detail-header">
+    <a href="#t:canvas_handle/0" class="detail-link" data-no-tooltip="" aria-label="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">canvas_handle()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L19" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@type</span> canvas_handle() :: {<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Backend-qualified canvas handle</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+  <section id="functions" class="details-list">
+    <h1 class="section-heading">
+      <a class="hover-link" href="#functions">
+        <i class="ri-link-m" aria-hidden="true"></i>
+      </a>
+      <span class="text">Functions</span>
+    </h1>
+
+    <div class="functions-list">
+<section class="detail" id="capabilities/1">
+
+  <div class="detail-header">
+    <a href="#capabilities/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">capabilities(backend)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L127" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> capabilities(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>()) :: <a href="https://hexdocs.pm/elixir/MapSet.html#t:t/0">MapSet.t</a>()</pre>
+
+      </div>
+
+<p>Return capabilities supported by the selected backend</p>
+  </section>
+</section>
+<section class="detail" id="clear/2">
+
+  <div class="detail-header">
+    <a href="#clear/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">clear(arg, rgba)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L55" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> clear(<a href="#t:canvas_handle/0">canvas_handle</a>(), {0..255, 0..255, 0..255, 0..255}) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Clear the canvas to a given RGBA color (tuple {r,g,b,a}, 0..255).
+No-op for backends that don't support it yet.</p>
+  </section>
+</section>
+<section class="detail" id="create_canvas/3">
+
+    <span id="create_canvas/2"></span>
+
+  <div class="detail-header">
+    <a href="#create_canvas/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">create_canvas(width, height, opts \\ [])</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L36" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> create_canvas(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pos_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  {:ok, <a href="#t:canvas_handle/0">canvas_handle</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Create a new canvas using the selected backend.</p><p>Options:</p><ul><li>:backend - backend module (default: CanvasCraft.Backends.Skia)</li><li>other backend-specific options</li></ul>
+  </section>
+</section>
+<section class="detail" id="export_png/2">
+
+    <span id="export_png/1"></span>
+
+  <div class="detail-header">
+    <a href="#export_png/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_png(arg, opts \\ [])</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L82" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> export_png(
+  <a href="#t:canvas_handle/0">canvas_handle</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()
+) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the canvas using backend. Defaults to PNG; if opts[:format] == :webp
+and the backend implements export_webp/2, that path is used.</p>
+  </section>
+</section>
+<section class="detail" id="export_png_to_file/3">
+
+    <span id="export_png_to_file/2"></span>
+
+  <div class="detail-header">
+    <a href="#export_png_to_file/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_png_to_file(handle, path, opts \\ [])</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L143" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> export_png_to_file(<a href="#t:canvas_handle/0">canvas_handle</a>(), <a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export PNG and write to file path (helper).</p>
+  </section>
+</section>
+<section class="detail" id="export_raw/1">
+
+  <div class="detail-header">
+    <a href="#export_raw/1" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_raw(arg)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L117" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> export_raw(<a href="#t:canvas_handle/0">canvas_handle</a>()) ::
+  {:ok, {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">non_neg_integer</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()}}
+  | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the raw RGBA buffer from the backend, if supported.</p>
+  </section>
+</section>
+<section class="detail" id="export_webp/2">
+
+    <span id="export_webp/1"></span>
+
+  <div class="detail-header">
+    <a href="#export_webp/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_webp(arg, opts \\ [])</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L106" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> export_webp(
+  <a href="#t:canvas_handle/0">canvas_handle</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()
+) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()} | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export the canvas as WEBP binary using backend, no filesystem involved.</p>
+  </section>
+</section>
+<section class="detail" id="export_webp_to_file/3">
+
+    <span id="export_webp_to_file/2"></span>
+
+  <div class="detail-header">
+    <a href="#export_webp_to_file/3" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">export_webp_to_file(handle, path, opts \\ [])</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L151" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> export_webp_to_file(<a href="#t:canvas_handle/0">canvas_handle</a>(), <a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Export WEBP and write to file path (helper).</p>
+  </section>
+</section>
+<section class="detail" id="fill_circle/5">
+
+  <div class="detail-header">
+    <a href="#fill_circle/5" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">fill_circle(arg, cx, cy, radius, rgba)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L171" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> fill_circle(
+  <a href="#t:canvas_handle/0">canvas_handle</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  {0..255, 0..255, 0..255, 0..255}
+) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Fill a circle with a color.</p>
+  </section>
+</section>
+<section class="detail" id="fill_rect/5">
+
+  <div class="detail-header">
+    <a href="#fill_rect/5" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">fill_rect(handle, x, y, w, h)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L62" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> fill_rect(<a href="#t:canvas_handle/0">canvas_handle</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+          <pre translate="no"><span class="attribute">@spec</span> fill_rect(<a href="#t:canvas_handle/0">canvas_handle</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>()) ::
+  :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Fill an axis-aligned rectangle.
+No-op for backends that don't support it yet; implemented later.</p>
+  </section>
+</section>
+<section class="detail" id="fill_rect/6">
+
+  <div class="detail-header">
+    <a href="#fill_rect/6" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">fill_rect(arg, x, y, w, h, rgba)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L70" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> fill_rect(
+  <a href="#t:canvas_handle/0">canvas_handle</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>(),
+  {0..255, 0..255, 0..255, 0..255}
+) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Fill an axis-aligned rectangle with a color.</p>
+  </section>
+</section>
+<section class="detail" id="hello/0">
+
+  <div class="detail-header">
+    <a href="#hello/0" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">hello()</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L25" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> hello() :: :world</pre>
+
+      </div>
+
+<p>Return a simple atom for smoke tests.</p>
+  </section>
+</section>
+<section class="detail" id="set_antialias/2">
+
+  <div class="detail-header">
+    <a href="#set_antialias/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">set_antialias(arg, aa)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L159" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> set_antialias(<a href="#t:canvas_handle/0">canvas_handle</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | 1 | 4 | 8) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Enable/disable antialiasing or set sample count (1,4,8).</p>
+  </section>
+</section>
+<section class="detail" id="supports?/2">
+
+  <div class="detail-header">
+    <a href="#supports?/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">supports?(backend, feature)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L133" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> supports?(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">module</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>()</pre>
+
+      </div>
+
+<p>Return true if backend supports the given feature</p>
+  </section>
+</section>
+<section class="detail" id="write_binary/2">
+
+  <div class="detail-header">
+    <a href="#write_binary/2" class="detail-link" data-no-tooltip="" aria-label="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+    </a>
+    <div class="heading-with-actions">
+      <h1 class="signature" translate="no">write_binary(bin, path)</h1>
+
+
+        <a href="https://github.com/miolini/canvascraft/blob/v0.1.0/lib/canvas_craft.ex#L139" class="icon-action" rel="help" aria-label="View Source">
+          <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        </a>
+
+    </div>
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">@spec</span> write_binary(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/Path.html#t:t/0">Path.t</a>()) :: :ok | {:error, <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
+
+      </div>
+
+<p>Write a binary returned from export_* to a file path (thin helper).</p>
+  </section>
+</section>
+
+    </div>
+  </section>
+
+    <footer class="footer">
+      <p>
+
+          <span class="line">
+            <a href="https://hex.pm/packages/canvas_craft/0.1.0" class="footer-hex-package">Hex Package</a>
+
+            <a href="https://preview.hex.pm/preview/canvas_craft/0.1.0">Hex Preview</a>
+
+          </span>
+
+        <span class="line">
+          <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+            Search HexDocs
+          </button>
+
+            <a href="canvas_craft.epub" title="ePub version">
+              Download ePub version
+            </a>
+
+        </span>
+      </p>
+
+      <p class="built-using">
+        Built using
+        <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.38.4) for the
+
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+      </p>
+
+    </footer>
+  </div>
+</main>
+</div>
+
+  </body>
+</html>
