@@ -230,15 +230,28 @@ fn fill_circle<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy: f64, r
     let y0 = ((cy - radius as f32).floor() as i32).max(0) as usize;
     let x1 = ((cx + radius as f32).ceil() as usize).min(guard.w);
     let y1 = ((cy + radius as f32).ceil() as usize).min(guard.h);
-    let sa = a as f32 / 255.0;
+
+    // Respect AA sample count (1,4,8). Same pattern as draw_oval.
+    let samples: &[(f32, f32)] = match guard.aa_samples {
+        8 => &[(0.125,0.125),(0.375,0.125),(0.625,0.125),(0.875,0.125),(0.25,0.375),(0.5,0.5),(0.75,0.625),(0.875,0.875)],
+        1 => &[(0.5,0.5)],
+        _ => &[(0.25,0.25),(0.75,0.25),(0.25,0.75),(0.75,0.75)],
+    };
+
     for yy in y0..y1 {
         for xx in x0..x1 {
-            let dx = xx as f32 + 0.5 - cx;
-            let dy = yy as f32 + 0.5 - cy;
-            if dx*dx + dy*dy <= r2 {
-                let idx = (yy * guard.w + xx) * 4;
-                blend_src_over(&mut guard.buf, idx, r, g, b, sa);
+            // MSAA coverage estimation
+            let mut covered = 0usize;
+            for (ox, oy) in samples {
+                let dx = (xx as f32 + *ox) - cx;
+                let dy = (yy as f32 + *oy) - cy;
+                if dx*dx + dy*dy <= r2 { covered += 1; }
             }
+            if covered == 0 { continue; }
+            let coverage = (covered as f32) / (samples.len() as f32);
+            let idx = (yy * guard.w + xx) * 4;
+            let sa = (a as f32 / 255.0) * coverage;
+            blend_src_over(&mut guard.buf, idx, r, g, b, sa);
         }
     }
     Ok(rustler::types::atom::ok().encode(env))

@@ -388,10 +388,13 @@ defmodule CanvasCraft.Scene do
     rows = Keyword.fetch!(props, :rows)
     cols = Keyword.fetch!(props, :cols)
     color = Keyword.get(props, :color, {58,63,72,255})
-    cell_w = div(w, max(cols, 1))
-    cell_h = div(h, max(rows, 1))
-    for i <- 0..cols, do: CanvasCraft.fill_rect(handle!(), x + i*cell_w, y, 1, h, color)
-    for j <- 0..rows, do: CanvasCraft.fill_rect(handle!(), x, y + j*cell_h, w, 1, color)
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
+    __with_aa(aa, fn ->
+      cell_w = div(w, max(cols, 1))
+      cell_h = div(h, max(rows, 1))
+      for i <- 0..cols, do: CanvasCraft.fill_rect(handle!(), x + i*cell_w, y, 1, h, color)
+      for j <- 0..rows, do: CanvasCraft.fill_rect(handle!(), x, y + j*cell_h, w, 1, color)
+    end)
     :ok
   end
 
@@ -423,7 +426,8 @@ defmodule CanvasCraft.Scene do
     w = Keyword.fetch!(props, :w)
     h = Keyword.fetch!(props, :h)
     color = Keyword.get(props, :color, {220,226,236,255})
-    __kw_rect([x: x, y: y, w: w, h: h, color: color])
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
+    __kw_rect([x: x, y: y, w: w, h: h, color: color, aa: aa])
   end
 
   def __kw_progress_bar(props) when is_list(props) do
@@ -448,19 +452,22 @@ defmodule CanvasCraft.Scene do
     h = Keyword.fetch!(props, :h)
     points = Keyword.fetch!(props, :points)
     color = Keyword.get(props, :color, {90,205,140,255})
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
     pts = Enum.map(points, fn {tx, ty} -> {x + tx * w, y + (1.0 - ty) * h} end)
-    Enum.each(pts, fn {px, py} -> _ = CanvasCraft.fill_circle(handle!(), px, py, 3, color) end)
-    Enum.chunk_every(pts, 2, 1, :discard)
-    |> Enum.each(fn [{x0,y0},{x1,y1}] ->
-      dx = x1 - x0; dy = y1 - y0
-      dist = :math.sqrt(dx*dx + dy*dy)
-      steps = max(trunc(dist / 6), 1)
-      for s <- 0..steps do
-        t = s / max(steps, 1)
-        sx = x0 + (x1 - x0) * t
-        sy = y0 + (y1 - y0) * t
-        _ = CanvasCraft.fill_circle(handle!(), sx, sy, 2, color)
-      end
+    __with_aa(aa, fn ->
+      Enum.each(pts, fn {px, py} -> _ = CanvasCraft.fill_circle(handle!(), px, py, 3, color) end)
+      Enum.chunk_every(pts, 2, 1, :discard)
+      |> Enum.each(fn [{x0,y0},{x1,y1}] ->
+        dx = x1 - x0; dy = y1 - y0
+        dist = :math.sqrt(dx*dx + dy*dy)
+        steps = max(trunc(dist / 6), 1)
+        for s <- 0..steps do
+          t = s / max(steps, 1)
+          sx = x0 + (x1 - x0) * t
+          sy = y0 + (y1 - y0) * t
+          _ = CanvasCraft.fill_circle(handle!(), sx, sy, 2, color)
+        end
+      end)
     end)
     :ok
   end
@@ -473,19 +480,24 @@ defmodule CanvasCraft.Scene do
     candles = Keyword.fetch!(props, :candles)
     up_color = Keyword.get(props, :up_color, {90,205,140,255})
     down_color = Keyword.get(props, :down_color, {240,96,96,255})
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
     n = max(length(candles), 1)
     cw = max(trunc(w / n) - 4, 3)
-    Enum.with_index(candles)
-    |> Enum.each(fn {{open, high, low, close}, i} ->
-      cx = x + i * (cw + 4) + 2
-      fy = fn v -> y + (1.0 - v) * h end
-      yo = fy.(open); yh = fy.(high); yl = fy.(low); yc = fy.(close)
-      up? = close >= open
-      body_y = if up?, do: yc, else: yo
-      body_h = max(abs(yc - yo), 2)
-      color = if up?, do: up_color, else: down_color
-      _ = CanvasCraft.fill_rect(handle!(), cx + div(cw,2), min(yh,yl), 2, abs(yh - yl), {200,210,220,255})
-      _ = CanvasCraft.fill_rect(handle!(), cx, body_y, cw, body_h, color)
+    __with_aa(aa, fn ->
+      Enum.with_index(candles)
+      |> Enum.each(fn {{open, high, low, close}, i} ->
+        cx = x + i * (cw + 4) + 2
+        fy = fn v -> y + (1.0 - v) * h end
+        yo = fy.(open); yh = fy.(high); yl = fy.(low); yc = fy.(close)
+        up? = close >= open
+        body_y = if up?, do: yc, else: yo
+        body_h = max(abs(yc - yo), 2)
+        color = if up?, do: up_color, else: down_color
+        # wick
+        _ = CanvasCraft.fill_rect(handle!(), cx + div(cw,2), min(yh,yl), 2, abs(yh - yl), {200,210,220,255})
+        # body
+        _ = CanvasCraft.fill_rect(handle!(), cx, body_y, cw, body_h, color)
+      end)
     end)
     :ok
   end
@@ -500,22 +512,25 @@ defmodule CanvasCraft.Scene do
     to = Keyword.fetch!(props, :to)
     vertical = Keyword.get(props, :vertical, true)
     steps = Keyword.get(props, :steps, 64)
-    for i <- 0..steps do
-      t = i / max(steps, 1)
-      {r1,g1,b1,a1} = from
-      {r2,g2,b2,a2} = to
-      c = {
-        trunc(r1 + (r2 - r1) * t),
-        trunc(g1 + (g2 - g1) * t),
-        trunc(b1 + (b2 - b1) * t),
-        trunc(a1 + (a2 - a1) * t)
-      }
-      if vertical do
-        _ = CanvasCraft.fill_rect(handle!(), x, y + round(h * t), w, max(div(h, steps+1), 1), c)
-      else
-        _ = CanvasCraft.fill_rect(handle!(), x + round(w * t), y, max(div(w, steps+1), 1), h, c)
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
+    __with_aa(aa, fn ->
+      for i <- 0..steps do
+        t = i / max(steps, 1)
+        {r1,g1,b1,a1} = from
+        {r2,g2,b2,a2} = to
+        c = {
+          trunc(r1 + (r2 - r1) * t),
+          trunc(g1 + (g2 - g1) * t),
+          trunc(b1 + (b2 - b1) * t),
+          trunc(a1 + (a2 - a1) * t)
+        }
+        if vertical do
+          _ = CanvasCraft.fill_rect(handle!(), x, y + round(h * t), w, max(div(h, steps+1), 1), c)
+        else
+          _ = CanvasCraft.fill_rect(handle!(), x + round(w * t), y, max(div(w, steps+1), 1), h, c)
+        end
       end
-    end
+    end)
     :ok
   end
 
@@ -526,19 +541,22 @@ defmodule CanvasCraft.Scene do
     inner = Keyword.fetch!(props, :inner)
     outer = Keyword.fetch!(props, :outer)
     steps = Keyword.get(props, :steps, 48)
-    for i <- 0..steps do
-      t = i / max(steps, 1)
-      {r1,g1,b1,a1} = inner
-      {r2,g2,b2,a2} = outer
-      c = {
-        trunc(r1 + (r2 - r1) * t),
-        trunc(g1 + (g2 - g1) * t),
-        trunc(b1 + (b2 - b1) * t),
-        trunc(a1 + (a2 - a1) * t)
-      }
-      rr = r * (1.0 - t)
-      _ = CanvasCraft.fill_circle(handle!(), cx, cy, rr, c)
-    end
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
+    __with_aa(aa, fn ->
+      for i <- 0..steps do
+        t = i / max(steps, 1)
+        {r1,g1,b1,a1} = inner
+        {r2,g2,b2,a2} = outer
+        c = {
+          trunc(r1 + (r2 - r1) * t),
+          trunc(g1 + (g2 - g1) * t),
+          trunc(b1 + (b2 - b1) * t),
+          trunc(a1 + (a2 - a1) * t)
+        }
+        rr = r * (1.0 - t)
+        _ = CanvasCraft.fill_circle(handle!(), cx, cy, rr, c)
+      end
+    end)
     :ok
   end
 
@@ -549,7 +567,8 @@ defmodule CanvasCraft.Scene do
     w = Keyword.get(props, :w, 160)
     h = Keyword.get(props, :h, 20)
     tone = Keyword.get(props, :tone, {220,226,236,255})
-    _ = CanvasCraft.fill_rect(handle!(), x, y, w, h, tone)
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
+    __with_aa(aa, fn -> _ = CanvasCraft.fill_rect(handle!(), x, y, w, h, tone) end)
     :ok
   end
 
@@ -560,14 +579,15 @@ defmodule CanvasCraft.Scene do
     h = Keyword.get(props, :h, 22)
     dot = Keyword.get(props, :dot, {90,205,140,255})
     bar = Keyword.get(props, :bar, {220,226,236,255})
-    # rounded rect via circles + rects
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
     r = div(h, 2)
-    _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r, {48,52,62,255})
-    _ = CanvasCraft.fill_circle(handle!(), x + r + label_w, y + r, r, {48,52,62,255})
-    _ = CanvasCraft.fill_rect(handle!(), x + r, y, label_w, h, {48,52,62,255})
-    # dot and label bar
-    _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r - 6, dot)
-    _ = CanvasCraft.fill_rect(handle!(), x + r + 12, y + 6, label_w - 6, h - 12, bar)
+    __with_aa(aa, fn ->
+      _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r, {48,52,62,255})
+      _ = CanvasCraft.fill_circle(handle!(), x + r + label_w, y + r, r, {48,52,62,255})
+      _ = CanvasCraft.fill_rect(handle!(), x + r, y, label_w, h, {48,52,62,255})
+      _ = CanvasCraft.fill_circle(handle!(), x + r, y + r, r - 6, dot)
+      _ = CanvasCraft.fill_rect(handle!(), x + r + 12, y + 6, label_w - 6, h - 12, bar)
+    end)
     :ok
   end
 
@@ -683,9 +703,10 @@ defmodule CanvasCraft.Scene do
     gap = Keyword.get(props, :gap, 10)
     h = Keyword.get(props, :h, 16)
     tone = Keyword.get(props, :tone, {58,63,72,255})
+    aa = Keyword.get(props, :aa, Process.get(:cc_aa))
     Enum.each(0..(lines-1), fn i ->
       yy = y + i * (h + gap)
-      __kw_rect([x: x, y: yy, w: trunc(w * (0.9 - 0.1 * rem(i, 3))), h: h, color: tone])
+      __kw_rect([x: x, y: yy, w: trunc(w * (0.9 - 0.1 * rem(i, 3))), h: h, color: tone, aa: aa])
     end)
     :ok
   end
