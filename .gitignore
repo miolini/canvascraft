@@ -2,3 +2,4 @@ _build
 target
 deps
 .DS_Store
+*.tar
