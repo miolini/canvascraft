@@ -56,6 +56,11 @@ jobs:
       - name: Test
         run: mix test
 
-      - name: Bench (non-blocking)
+      - name: CI Bench (non-blocking with warnings)
+        env:
+          MIX_ENV: test
+          BENCH_BASELINE: bench/ci_baseline.json
+          BENCH_REGRESSION_THRESHOLD: "1.15"
         run: |
-          mix run -e "IO.puts(\"skip benchmarks in CI for now\")"
+          echo '{"ref_fill_rect": 50.0, "ref_export_webp": 120.0}' > bench/ci_baseline.json
+          mix run bench/ci_bench_check.exs

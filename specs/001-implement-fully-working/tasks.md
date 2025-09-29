@@ -145,7 +145,7 @@
 - [x] T047 [P] Add CHANGELOG.md and SemVer notes
 - [x] T048 [P] Add README.md with quickstart and Skia backend selection
 - [x] T049 [P] Add CONTRIBUTING.md with Constitution summary and CI gates
-- [ ] T050 [P] Finalize CI to mark benchmark regressions as warnings
+- [x] T050 [P] Finalize CI to mark benchmark regressions as warnings
 - [ ] T051 Release 0.1.0 (MVP) tag when all tests pass
 
 ## Dependencies
