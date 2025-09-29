@@ -142,7 +142,7 @@
       - @moduledoc and examples; mix docs builds with examples
 
 ## Phase 3.5: Polish
-- [ ] T047 [P] Add CHANGELOG.md and SemVer notes
+- [x] T047 [P] Add CHANGELOG.md and SemVer notes
 - [ ] T048 [P] Add README.md with quickstart and Skia backend selection
 - [ ] T049 [P] Add CONTRIBUTING.md with Constitution summary and CI gates
 - [ ] T050 [P] Finalize CI to mark benchmark regressions as warnings
