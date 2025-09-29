@@ -39,7 +39,7 @@ defmodule KitchenSink do
 
       # Header
       linear_gradient_rect x: 40, y: 40, w: width-80, h: 64, vertical: true, from: pal.header_from, to: pal.header_to, aa: aa
-      text x: 80, y: 56, text: "CanvasCraft Dashboard", size: 64, color: pal.header_text
+      text x: 80, y: 56, text: "CanvasCraft Dashboard", size: 26, color: pal.header_text
       chip_y = 56
       chip x: width-80-360, y: chip_y, w: 116, h: 22, dot: pal.blue, aa: aa
       chip x: width-80-232, y: chip_y, w: 116, h: 22, dot: pal.green, aa: aa
@@ -100,8 +100,11 @@ defmodule KitchenSink do
       plot_y = right_y + 68
       plot_w = right_w - 56
       plot_h = right_h - 108
+
+      # Grid behind content
       grid x: plot_x, y: plot_y, w: plot_w, h: plot_h, rows: 8, cols: 10, color: pal.grid, aa: aa
 
+      # Line and candles
       line_chart x: plot_x+40, y: plot_y+24, w: plot_w-80, h: 160,
                  points: Enum.map(0..20, fn i -> {i/20, 0.5 + :math.sin(i/3)/3} end), color: pal.blue, aa: aa
 
@@ -114,10 +117,23 @@ defmodule KitchenSink do
                      {o,h,l,c}
                    end), up_color: pal.green, down_color: pal.red, aa: aa
 
+      # Legend
       chip x: plot_x+40, y: plot_y+404, w: 120, h: 22, dot: pal.blue, aa: aa
       chip x: plot_x+180, y: plot_y+404, w: 120, h: 22, dot: pal.green, aa: aa
 
-      scatter x: plot_x+120, y: plot_y+80, w: plot_w-240, h: plot_h-200, count: 100, seed: 42, aa: aa
+      # Clean scatter points without extra background
+      sx = plot_x + 120
+      sy = plot_y + 80
+      sw = plot_w - 240
+      sh = plot_h - 200
+      :rand.seed(:exsplus, {42, 84, 21})
+      for _ <- 1..100 do
+        px = sx + :rand.uniform() * (sw - 20) + 10
+        py = sy + :rand.uniform() * (sh - 20) + 10
+        rr = 4 + :rand.uniform() * 6
+        color = if :rand.uniform() < 0.5, do: pal.green, else: pal.blue
+        circle cx: px, cy: py, r: rr, color: color, aa: aa
+      end
 
       # Footer
       text x: 80, y: height-96, text: "Rendered with CanvasCraft (Skia)", size: 14, color: pal.faint
