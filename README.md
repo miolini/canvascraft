@@ -26,7 +26,7 @@ This builds a small native library (Rust). You need a Rust toolchain (`rustup` r
 
 ## Preview
 
-![KitchenSink 1080p](examples/kitchensink/kitchen_1080p.webp)
+![KitchenSink](examples/kitchensink/output.webp)
 
 ## Quickstart (Declarative DSL)
 
@@ -66,8 +66,8 @@ Run KitchenSink:
 ```sh
 cd examples/kitchensink
 mix deps.get
-mix run -e 'KitchenSink.render("kitchen_1080p.webp")'
-file kitchen_1080p.webp # should report RIFF WebP
+mix run -e 'KitchenSink.render("output.webp")'
+file output.webp # should report RIFF WebP
 ```
 
 Alternative script form:
