@@ -2,11 +2,27 @@
 
 ![Elixir](https://img.shields.io/badge/Elixir-4B275F?style=flat&logo=elixir&logoColor=white)
 
-In-memory 2D rendering with a Skia backend (via Rustler). 100% declarative Scene DSL for building charts and UI-like scenes.
+In-memory 2D rendering with a Skia backend (Rustler NIF). 100% declarative Scene DSL for charts and UI-like scenes.
+
+## Install
+Add to `mix.exs`:
+
+```elixir
+{:canvas_craft, "~> 0.1.0"}
+```
+
+This builds a small native library (Rust). You need a Rust toolchain (`rustup` recommended).
 
 ## Requirements
 - Elixir >= 1.16, OTP >= 26
-- Rust toolchain (required)
+- Rust toolchain (required to compile the NIF)
+- macOS or Linux (x86_64/arm64). Windows WSL works (experimental)
+
+## Features
+- Real in-memory WEBP export (no temp files)
+- Raw RGBA buffer access
+- Declarative DSL with named properties and per-element antialiasing
+- Primitives: clear, rect, circle; composites: panel, donut_segment, grid, scatter, progress_bar, line_chart, candle_chart
 
 ## Quickstart (Declarative DSL)
 
@@ -22,25 +38,24 @@ render width: 128, height: 128, path: "out.webp" do
 end
 ```
 
-Skia backend (default):
+Skia backend is default. To get a binary instead of a file:
 
 ```elixir
 import CanvasCraft.Scene
-
-render width: 256, height: 256, path: "circle.webp" do
-  aa 4
-  circle cx: 128, cy: 128, r: 80, color: {30, 180, 90, 255}
+{:ok, webp} = render width: 320, height: 240 do
+  circle cx: 120, cy: 120, r: 80, color: {30, 180, 90, 255}
 end
+File.write!("circle.webp", webp)
 ```
 
-## Declarative DSL
-See `lib/canvas_craft/scene.ex` for the Scene DSL. The examples in `examples/kitchensink` showcase:
-- named properties (e.g., `rect x: 10, y: 10, w: 100, h: 40, color: {…}`)
-- per-element antialiasing via `aa: 1|4|8`
-- composites (grid, line_chart, candle_chart, donut_segment, progress_bar, scatter, text_bar)
+## DSL essentials
+- Colors: RGBA tuples `{r,g,b,a}` with 0..255 components
+- Antialiasing: `aa 1 | 4 | 8` (can be set globally or per element)
+- Coordinate system: pixels, origin at top-left
+- Named properties on all elements: `rect x:, y:, w:, h:, color:` etc.
 
 ## Examples
-- `examples/earth_planet` – minimal scene
+- `examples/earth_planet` – minimal
 - `examples/kitchensink` – 1080p dashboard using the DSL
 
 Run KitchenSink:
@@ -52,7 +67,7 @@ mix run -e 'KitchenSink.render("kitchen_1080p.webp")'
 file kitchen_1080p.webp # should report RIFF WebP
 ```
 
-Alternative (positional DSL script):
+Alternative script form:
 
 ```sh
 cd examples/kitchensink
@@ -60,20 +75,22 @@ mix deps.get
 mix run script.exs
 ```
 
-## In-Memory Binary (no path)
-The DSL can return the image as a binary for streaming:
+## Tech details
+- Backend: Skia-like raster implemented as a Rust NIF (via Rustler)
+- Public API: `CanvasCraft` module (in-memory export, raw buffer)
+- DSL: `CanvasCraft.Scene` macro composes scenes and scopes AA
+- Encoding: WEBP (lossless); raw RGBA buffer for custom pipelines
 
-```elixir
-import CanvasCraft.Scene
+## Platforms & build
+- Compiles the NIF at dependency build time
+- Needs: Rust (`rustup toolchain install stable`), clang/LLVM on Linux
 
-{:ok, webp} = render width: 320, height: 240 do
-  rect x: 20, y: 20, w: 120, h: 80, color: {60, 150, 255, 255}
-end
-File.write!("frame.webp", webp)
-```
+## Troubleshooting
+- NIF fails to load: ensure Rust toolchain is installed and on PATH
+- Compile errors about clang: install build tools (`xcode-select --install` on macOS; `build-essential` on Ubuntu)
 
-## CI
-- CI runs format, Credo, Dialyzer, tests, and a non-blocking benchmark step that emits warnings if regressions are detected.
+## Contributing
+See `CONTRIBUTING.md`. CI runs format, Credo, Dialyzer, tests, and non-blocking benches.
 
 ## License
 MIT
