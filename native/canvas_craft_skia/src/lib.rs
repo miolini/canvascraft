@@ -52,7 +52,8 @@ fn set_antialias<'a>(env: Env<'a>, surf: ResourceArc<Surface>, aa: Term<'a>) -> 
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for large buffer copy operations
+#[rustler::nif(schedule = "DirtyCpu")]
 fn get_rgba_buffer<'a>(env: Env<'a>, surf: ResourceArc<Surface>) -> NifResult<Term<'a>> {
     let guard = surf.0.lock().unwrap();
     let stride = (guard.w * 4) as i64;
@@ -68,7 +69,8 @@ fn get_rgba_buffer<'a>(env: Env<'a>, surf: ResourceArc<Surface>) -> NifResult<Te
     Ok(term)
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for CPU-intensive encoding operations
+#[rustler::nif(schedule = "DirtyCpu")]
 fn encode_webp<'a>(env: Env<'a>, surf: ResourceArc<Surface>, _opts: Term<'a>) -> NifResult<Term<'a>> {
     let guard = surf.0.lock().unwrap();
     let mut out = Vec::new();
@@ -107,7 +109,8 @@ fn set_radial_gradient<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for CPU-intensive rendering with MSAA
+#[rustler::nif(schedule = "DirtyCpu")]
 fn draw_oval<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy: f64, rx: f64, ry: f64) -> NifResult<Term<'a>> {
     let mut guard = surf.0.lock().unwrap();
     let shader = match &guard.shader {
@@ -194,7 +197,8 @@ fn blend_src_over(dst: &mut [u8], idx: usize, r: u8, g: u8, b: u8, a: f32) {
     dst[idx + 3] = (out_a * 255.0).round() as u8;
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for bulk pixel operations
+#[rustler::nif(schedule = "DirtyCpu")]
 fn clear<'a>(env: Env<'a>, surf: ResourceArc<Surface>, r: u8, g: u8, b: u8, a: u8) -> NifResult<Term<'a>> {
     let mut guard = surf.0.lock().unwrap();
     for px in guard.buf.chunks_exact_mut(4) {
@@ -203,7 +207,8 @@ fn clear<'a>(env: Env<'a>, surf: ResourceArc<Surface>, r: u8, g: u8, b: u8, a: u
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for rendering operations with blending
+#[rustler::nif(schedule = "DirtyCpu")]
 fn fill_rect<'a>(env: Env<'a>, surf: ResourceArc<Surface>, x: i64, y: i64, w: i64, h: i64, r: u8, g: u8, b: u8, a: u8) -> NifResult<Term<'a>> {
     if w <= 0 || h <= 0 { return Ok(rustler::types::atom::ok().encode(env)); }
     let mut guard = surf.0.lock().unwrap();
@@ -221,7 +226,8 @@ fn fill_rect<'a>(env: Env<'a>, surf: ResourceArc<Surface>, x: i64, y: i64, w: i6
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for CPU-intensive rendering with MSAA
+#[rustler::nif(schedule = "DirtyCpu")]
 fn fill_circle<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy: f64, radius: f64, r: u8, g: u8, b: u8, a: u8) -> NifResult<Term<'a>> {
     if radius <= 0.0 { return Ok(rustler::types::atom::ok().encode(env)); }
     let mut guard = surf.0.lock().unwrap();
@@ -257,7 +263,8 @@ fn fill_circle<'a>(env: Env<'a>, surf: ResourceArc<Surface>, cx: f64, cy: f64, r
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty I/O scheduler for file system operations
+#[rustler::nif(schedule = "DirtyIo")]
 fn font_load_path<'a>(env: Env<'a>, surf: ResourceArc<Surface>, path: String) -> NifResult<Term<'a>> {
     let data = std::fs::read(path).map_err(|_| rustler::Error::Term(Box::new("font_read_failed")))?;
     let font = rusttype::Font::try_from_vec(data).ok_or(rustler::Error::Term(Box::new("font_bad")))?;
@@ -273,7 +280,8 @@ fn font_set_size<'a>(env: Env<'a>, surf: ResourceArc<Surface>, size: f64) -> Nif
     Ok(rustler::types::atom::ok().encode(env))
 }
 
-#[rustler::nif]
+// Use dirty CPU scheduler for CPU-intensive text rendering with font rasterization
+#[rustler::nif(schedule = "DirtyCpu")]
 fn draw_text<'a>(env: Env<'a>, surf: ResourceArc<Surface>, x: f64, y: f64, text: String, r: u8, g: u8, b: u8, a: u8) -> NifResult<Term<'a>> {
     let mut guard = surf.0.lock().unwrap();
     let font = match &guard.font { Some(f) => f.clone(), None => return Ok(rustler::types::atom::ok().encode(env)) };

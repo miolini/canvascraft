@@ -8,7 +8,7 @@ In-memory 2D rendering with a Skia backend (Rustler NIF). 100% declarative Scene
 Add to `mix.exs`:
 
 ```elixir
-{:canvas_craft, "~> 0.2.0"}
+{:canvas_craft, "~> 0.2.1"}
 ```
 
 This builds a small native library (Rust). You need a Rust toolchain (`rustup` recommended).
@@ -21,6 +21,7 @@ This builds a small native library (Rust). You need a Rust toolchain (`rustup` r
 ## Features
 - Real in-memory WEBP export (no temp files)
 - Raw RGBA buffer access
+- **Parallel rendering** using dirty schedulers - multiple canvases render concurrently without blocking the VM
 - Declarative DSL with named properties and per-element antialiasing
 - Primitives: clear, rect, circle; composites: panel, donut_segment, grid, scatter, progress_bar, line_chart, candle_chart
 
@@ -76,9 +77,11 @@ file output.webp
 
 ## Tech details
 - Backend: Skia-like raster implemented as a Rust NIF (via Rustler)
+- **Dirty schedulers**: All CPU-intensive operations (rendering, encoding) use dirty CPU schedulers for true parallelization
 - Public API: `CanvasCraft` module (in-memory export, raw buffer)
 - DSL: `CanvasCraft.Scene` macro composes scenes and scopes AA
 - Encoding: WEBP (lossless); raw RGBA buffer for custom pipelines
+- See `guides/PARALLELIZATION.md` for parallel rendering examples
 
 ## Platforms & build
 - Compiles the NIF at dependency build time
